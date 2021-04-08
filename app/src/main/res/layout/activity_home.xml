@@ -1,7 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity"/>
+    android:background="#FFFFFF"
+    android:backgroundTint="#FFFFFF"
+    android:orientation="vertical"
+    tools:context=".HomeActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_500">
+
+        <TextView
+            android:layout_width="320dp"
+            android:layout_height="72dp"
+            android:backgroundTint="@color/purple_700"
+            android:text="@string/venue"
+            android:textSize="50sp"
+            android:paddingVertical="6dp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            />
+
+        <ImageButton
+            android:id="@+id/imageView7"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:backgroundTint="@color/purple_500"
+            android:scaleType="centerInside"
+            android:src="@drawable/gear"
+            android:translationX="24dp"
+
+            android:translationY="13dp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        >
+
+
+        <ImageButton
+            android:id="@+id/imageButton6"
+            android:layout_width="200dp"
+            android:layout_height="236dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/window" />
+
+        <ImageButton
+            android:id="@+id/imageButton7"
+            android:layout_width="200dp"
+            android:layout_height="236dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/heater" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        >
+        <ImageButton
+            android:id="@+id/imageButton8"
+            android:layout_width="200dp"
+            android:layout_height="236dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/lightbulb" />
+
+        <ImageButton
+            android:id="@+id/imageButton9"
+            android:layout_width="200dp"
+            android:layout_height="236dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/plant" />
+
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+
+        >
+
+        <ImageButton
+            android:id="@+id/imageButton10"
+            android:layout_width="200dp"
+            android:layout_height="236dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/group" />
+
+        <ImageButton
+            android:id="@+id/imageButton11"
+            android:layout_width="200dp"
+            android:layout_height="236dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/time_management" />
+
+</LinearLayout>
+
+
+</LinearLayout>
