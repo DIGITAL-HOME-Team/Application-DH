@@ -11,25 +11,25 @@
         android:background="@color/purple_500">
 
         <TextView
-            android:layout_width="320dp"
-            android:layout_height="72dp"
+            android:layout_width="320dip"
+            android:layout_height="72dip"
             android:backgroundTint="@color/purple_700"
             android:text="@string/venue"
-            android:textSize="50sp"
-            android:paddingVertical="6dp"
+            android:textSize="45dip"
+            android:paddingVertical="6dip"
             android:textColor="@color/white"
             android:textAlignment="center"
             />
 
         <ImageButton
             android:id="@+id/imageView7"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
+            android:layout_width="52dip"
+            android:layout_height="52dip"
             android:backgroundTint="@color/purple_500"
             android:scaleType="centerInside"
             android:src="@drawable/gear"
-            android:translationX="24dp"
-            android:translationY="13dp" />
+            android:translationX="24dip"
+            android:translationY="13dip" />
 
     </LinearLayout>
 
@@ -37,7 +37,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="78dp"
+        android:layout_marginTop="80dip"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
@@ -79,7 +79,7 @@
                     android:src="@drawable/lightbulb" />
 
                 <ImageButton
-                    android:id="@+id/imageButton9"
+                    android:id="@+id/list_plant_button"
                     android:layout_height="220dip"
                     android:layout_column="1"
                     android:scaleType="centerInside"
