@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:backgroundTint="#FFFFFF"
-    android:orientation="vertical"
-    tools:context=".HomeActivity">
-
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/purple_500">
@@ -34,76 +29,87 @@
             android:scaleType="centerInside"
             android:src="@drawable/gear"
             android:translationX="24dp"
-
             android:translationY="13dp" />
 
-
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        >
+        android:layout_height="match_parent"
+        android:layout_marginTop="78dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:shrinkColumns="0,1">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:id="@+id/imageButton6"
+                    android:layout_height="220dip"
+                    android:layout_column="0"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/window" />
+
+                <ImageButton
+                    android:id="@+id/imageButton7"
+                    android:layout_height="220dip"
+                    android:layout_column="1"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/heater" />
+
+            </TableRow>
 
 
-        <ImageButton
-            android:id="@+id/imageButton6"
-            android:layout_width="200dp"
-            android:layout_height="236dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/window" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/imageButton7"
-            android:layout_width="200dp"
-            android:layout_height="236dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/heater" />
+                <ImageButton
+                    android:id="@+id/imageButton8"
+                    android:layout_height="220dip"
+                    android:layout_column="0"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/lightbulb" />
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        >
-        <ImageButton
-            android:id="@+id/imageButton8"
-            android:layout_width="200dp"
-            android:layout_height="236dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/lightbulb" />
+                <ImageButton
+                    android:id="@+id/imageButton9"
+                    android:layout_height="220dip"
+                    android:layout_column="1"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/plant" />
 
-        <ImageButton
-            android:id="@+id/imageButton9"
-            android:layout_width="200dp"
-            android:layout_height="236dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/plant" />
+            </TableRow>
 
-</LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        >
+                <ImageButton
+                    android:id="@+id/imageButton10"
+                    android:layout_height="220dip"
+                    android:layout_column="0"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/group" />
 
-        <ImageButton
-            android:id="@+id/imageButton10"
-            android:layout_width="200dp"
-            android:layout_height="236dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/group" />
+                <ImageButton
+                    android:id="@+id/imageButton11"
+                    android:layout_height="220dip"
+                    android:layout_column="1"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/time_management" />
 
-        <ImageButton
-            android:id="@+id/imageButton11"
-            android:layout_width="200dp"
-            android:layout_height="236dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/time_management" />
+            </TableRow>
 
-</LinearLayout>
+        </TableLayout>
+
+    </ScrollView>
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
