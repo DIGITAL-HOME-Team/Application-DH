@@ -10,11 +10,32 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-    }
+
 
     list_plant_button.setOnClickListener{
-        val intent = Intent(this, ListPlantActivity::class.java)
+        val type :String = "PLANT"
+        val intent = Intent(this, ListObjectActivity::class.java)
+        intent.putExtra("type", type);
+        startActivity(intent)
+    }
+    list_light_button.setOnClickListener {
+        val type :String = "LIGHT"
+        val intent = Intent(this, ListObjectActivity::class.java)
+        intent.putExtra("type", type);
+        startActivity(intent)
+    }
+    list_window_button.setOnClickListener {
+        val type :String = "WINDOW"
+        val intent = Intent(this, ListObjectActivity::class.java)
+        intent.putExtra("type", type);
+        startActivity(intent)
+    }
+    list_heater_button.setOnClickListener {
+        val type :String = "HEATER"
+        val intent = Intent(this, ListObjectActivity::class.java)
+        intent.putExtra("type", type);
         startActivity(intent)
     }
 
+    }
 }

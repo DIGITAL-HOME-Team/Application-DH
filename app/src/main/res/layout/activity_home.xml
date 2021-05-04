@@ -51,14 +51,14 @@
                 android:layout_height="match_parent">
 
                 <ImageButton
-                    android:id="@+id/imageButton6"
+                    android:id="@+id/list_window_button"
                     android:layout_height="220dip"
                     android:layout_column="0"
                     android:scaleType="centerInside"
                     android:src="@drawable/window" />
 
                 <ImageButton
-                    android:id="@+id/imageButton7"
+                    android:id="@+id/list_heater_button"
                     android:layout_height="220dip"
                     android:layout_column="1"
                     android:scaleType="centerInside"
@@ -72,7 +72,7 @@
                 android:layout_height="match_parent">
 
                 <ImageButton
-                    android:id="@+id/imageButton8"
+                    android:id="@+id/list_light_button"
                     android:layout_height="220dip"
                     android:layout_column="0"
                     android:scaleType="centerInside"
