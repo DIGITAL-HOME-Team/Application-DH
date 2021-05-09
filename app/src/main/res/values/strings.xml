@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Digital Home</string>
     <string name="venue">Maison 1</string>
+    <string name="client_lastname">Name</string>
+    <string name="object_add">Ajouter objet</string>
+    <string name="object_light">LIGHT</string>
+    <string name="object_plant">Plant</string>
+    <string name="object_window">Window</string>
+    <string name="object_heater">Heater</string>
 </resources>

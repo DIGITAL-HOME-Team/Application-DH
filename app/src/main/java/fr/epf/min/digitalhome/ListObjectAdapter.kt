@@ -7,14 +7,23 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import fr.epf.min.digitalhome.model.Object
 import fr.epf.min.digitalhome.model.Type
-import kotlinx.android.synthetic.main.list_object_view.view.*
+import kotlinx.android.synthetic.main.list_object_plant_view.view.*
+
 
 class ListObjectAdapter(val objects: List<Object>) : RecyclerView.Adapter<ListObjectAdapter.ObjectViewHolder>() {
     class ObjectViewHolder(val objectView: View) : RecyclerView.ViewHolder(objectView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ObjectViewHolder {
+        val `object`: Object =objects[viewType]
         val layoutInflater : LayoutInflater= LayoutInflater.from(parent.context)
-        val view : View = layoutInflater.inflate(R.layout.list_object_view,parent,false)
+        var view : View = layoutInflater.inflate(when(`object`.type){
+            Type.HEATER -> R.layout.list_object_heater_view
+            Type.LIGHT -> R.layout.list_object_light_view
+            Type.PLANT -> R.layout.list_object_plant_view
+            Type.WINDOW -> R.layout.list_object_window_view
+        },parent,false)
+
+
 
         return ObjectViewHolder(view)
     }
@@ -34,8 +43,9 @@ class ListObjectAdapter(val objects: List<Object>) : RecyclerView.Adapter<ListOb
                 })
         holder.objectView.setOnClickListener{
             with(it.context){
+                val `object_name`=`object`.name
                 val intent= Intent(this,DetailsPlantActivity::class.java)
-                intent.putExtra("id",position)
+                intent.putExtra("object", `object_name`);
                 startActivity(intent)
 
             }
