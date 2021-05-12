@@ -1,11 +1,26 @@
 package fr.epf.min.digitalhome
 
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
+import fr.epf.min.digitalhome.data.ObjectDao
+import fr.epf.min.digitalhome.data.ObjectDataBase
+import fr.epf.min.digitalhome.data.ObjectService
+import fr.epf.min.digitalhome.model.Object
+import fr.epf.min.digitalhome.model.Type
 import kotlinx.android.synthetic.main.activity_add_object.*
+import kotlinx.android.synthetic.main.activity_object.*
+import kotlinx.coroutines.runBlocking
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 
 class AddObjectActivity : AppCompatActivity() {
+
+
+    lateinit var database: ObjectDataBase
+    lateinit var objectDao: ObjectDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,23 +32,40 @@ class AddObjectActivity : AppCompatActivity() {
 
             var object_id= object_type_RadioGroup.checkedRadioButtonId as Int
 
-            var type =""
-            if(object_id == object_heater_radiobutton.id ){
-                type="HEATER"}
-            if(object_id == object_light_radiobutton.id){
-                type="LIGHT"}
-            if(object_id == object_plant_radiobutton.id){
-                type="PLANT"}
-            if(object_id == object_window_radiobutton.id){
-                type="WINDOW"}
+            var type :Type=(
+            when (object_id) {
+                object_heater_radiobutton.id  -> Type.HEATER
+                object_window_radiobutton.id -> Type.WINDOW
+                object_light_radiobutton.id-> Type.LIGHT
+                object_plant_radiobutton.id -> Type.PLANT
+                else -> Type.PLANT
+            })
 
-            Log.d("test","Nom:${name}")
+            Dao()
 
-            Log.d("test","Type:${type}")
+            val `object` = Object(null, "${name}",type,null,null,null)
+            runBlocking { objectDao.addObject(`object`) }
 
             finish()
 
 
         }
 }
+
+
+    private fun Dao(){
+        //accés a la
+
+
+        database = Room.databaseBuilder(
+            this, ObjectDataBase::class.java, "clients-db"
+
+        ).build()
+
+
+        objectDao = database.getObjectDao()
+    }
+
+
+
 }

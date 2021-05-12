@@ -8,11 +8,19 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
+import fr.epf.min.digitalhome.data.ObjectDao
+import fr.epf.min.digitalhome.data.ObjectDataBase
 import fr.epf.min.digitalhome.model.Object
 import kotlinx.android.synthetic.main.activity_details_plant.*
+import kotlinx.coroutines.runBlocking
 
 
 class DetailsPlantActivity : AppCompatActivity() {
+
+    lateinit var database: ObjectDataBase
+    lateinit var objectDao: ObjectDao
+    lateinit var `object`: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details_plant)
@@ -20,7 +28,7 @@ class DetailsPlantActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val intent = intent
-        var `object`: String = ""
+
         if (intent.hasExtra("object")) {
             `object` = intent.getStringExtra("object").toString()
         }
@@ -41,6 +49,11 @@ class DetailsPlantActivity : AppCompatActivity() {
                         .setMessage("Voulez-vous vraiment supprimer la/le objet?")
                         .setPositiveButton("Oui"){
                             _,_ ->
+
+                            Dao()
+                            runBlocking {
+                                val objects = objectDao.findByName("${`object`}")
+                                objectDao.deleteObject(objects) }
                             finish()
                             Toast.makeText(this,"Objet supprimé", Toast.LENGTH_SHORT).show()
                         }
@@ -53,5 +66,13 @@ class DetailsPlantActivity : AppCompatActivity() {
 
         }
         return super.onOptionsItemSelected(item)
+    }
+    private fun Dao(){
+        //accés a la base
+        database = Room.databaseBuilder(
+            this, ObjectDataBase::class.java, "clients-db"
+
+        ).build()
+        objectDao = database.getObjectDao()
     }
 }

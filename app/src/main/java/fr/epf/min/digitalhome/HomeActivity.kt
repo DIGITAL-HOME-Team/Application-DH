@@ -10,10 +10,12 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-
+        
+        //this.deleteDatabase ("clients-db") //Ne pas oublier de supprimer
 
     list_plant_button.setOnClickListener{
         val type :String = "PLANT"
+
         val intent = Intent(this, ListObjectActivity::class.java)
         intent.putExtra("type", type);
         startActivity(intent)

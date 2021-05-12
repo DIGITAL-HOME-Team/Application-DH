@@ -5,25 +5,37 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
+import fr.epf.min.digitalhome.data.ObjectDao
+import fr.epf.min.digitalhome.data.ObjectDataBase
+import fr.epf.min.digitalhome.data.ObjectService
 import fr.epf.min.digitalhome.model.Object
 import fr.epf.min.digitalhome.model.Type
 import kotlinx.android.synthetic.main.activity_object.*
-import java.sql.*
-import java.sql.DriverManager.getConnection
-import java.util.*
+import kotlinx.coroutines.runBlocking
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+
 
 
 class ListObjectActivity  : AppCompatActivity() {
+
+    lateinit var objects: MutableList<Object>
+    lateinit var database: ObjectDataBase
+    lateinit var objectDao: ObjectDao
+    lateinit var type: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+
+
+
         val intent = intent
-        var type: String = ""
+
         if (intent.hasExtra("type")) {
             type = intent.getStringExtra("type").toString()
         }
@@ -46,11 +58,6 @@ class ListObjectActivity  : AppCompatActivity() {
                         false
                 )
 
-        val `object1` = Object("salut", types)
-        val `object2` = Object("salut", types)
-        val `object` = listOf(`object1`, `object2`)
-
-        list_objects_recyclerview.adapter = ListObjectAdapter(`object`)
 
     }
 
@@ -66,51 +73,68 @@ class ListObjectActivity  : AppCompatActivity() {
                 startActivity(intent)
 
             }
+            R.id.refresh_list_action ->{
+                synchro()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
 
+    private fun synchro() {
 
+        runBlocking {
+            val retrofit = Retrofit.Builder()
+                .baseUrl("http://192.168.137.1:5000/")
+                .addConverterFactory(MoshiConverterFactory.create())
+                .build()
+            val service = retrofit.create(ObjectService::class.java)
 
-/*
-    internal var conn: Connection? = null
-
-    fun main(args: Array<String>) {
-        // make a connection to MySQL Server
-        getConnection()
-        // execute the query via connection object
-        executeMySQLQuery()
-    }
-    fun executeMySQLQuery() {
-        var stmt: Statement? = null
-        var resultset: ResultSet? = null
-
-        try {
-            stmt = conn!!.createStatement()
-            resultset = stmt!!.executeQuery("SHOW DATABASES;")
-
-        } catch (ex: SQLException) {
-            // handle any errors
-            ex.printStackTrace()
-        }
-    }
-        fun getConnection() {
-            val connectionProps = Properties()
-            //connectionProps.put("host", "195.144.11.150")
-            connectionProps.put("user", "zdj62853")
-            connectionProps.put("password", "DH1904!!")
-            connectionProps.put("database", "zdj62853")
-            try {
-                Class.forName("com.mysql.jdbc.Driver").newInstance()
-                val conn = DriverManager.getConnection("195.144.11.150", connectionProps)
-            } catch (ex: SQLException) {
-                ex.printStackTrace()// handle any errors
-            } catch (ex: Exception) {
-                ex.printStackTrace() // handle any errors
+            val result = service.getObjects("test")
+            Log.d("EPF","$result")
+            val users= result.results
+            users.map{
+                Object(null,it.name,
+                        when(it.type){
+                       "PLANT" -> Type.PLANT
+                            "HEATER" -> Type.HEATER
+                        "WINDOW" -> Type.WINDOW
+                        "LIGHT"-> Type.LIGHT
+                            else -> Type.LIGHT
+                        },
+                        null,
+                        null,
+                        null)
+            }.map{
+                objects.add(it)
+                objectDao.addObject(it)
             }
         }
-*/
+        list_objects_recyclerview.adapter?.notifyDataSetChanged()
+    }
+
+    override fun onStart() {
+
+
+        super.onStart()
+        Dao()
+
+
+        runBlocking {  objects = objectDao.getAllObjectsOfType(type).toMutableList()
+            list_objects_recyclerview.adapter = ListObjectAdapter(objects)
+        }
+
+    }
+
+    private fun Dao(){
+        //accés a la base
+        database = Room.databaseBuilder(
+            this, ObjectDataBase::class.java, "clients-db"
+
+        ).build()
+        objectDao = database.getObjectDao()
+    }
+
     }
 
 

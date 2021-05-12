@@ -7,4 +7,9 @@
         android:icon="@android:drawable/ic_menu_add"
         android:title="add"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/refresh_list_action"
+        android:icon="@android:drawable/ic_popup_sync"
+        android:title="Itemfresh"
+        app:showAsAction="ifRoom" />
 </menu>
