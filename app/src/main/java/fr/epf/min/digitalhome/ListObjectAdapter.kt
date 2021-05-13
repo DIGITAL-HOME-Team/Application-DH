@@ -12,6 +12,7 @@ import androidx.room.CoroutinesRoom
 import androidx.room.Room
 import fr.epf.min.digitalhome.data.ObjectDao
 import fr.epf.min.digitalhome.data.ObjectDataBase
+import fr.epf.min.digitalhome.data.ObjectService
 import fr.epf.min.digitalhome.model.Object
 import fr.epf.min.digitalhome.model.Type
 import kotlinx.android.synthetic.main.list_object_heater_view.view.*
@@ -20,6 +21,9 @@ import kotlinx.android.synthetic.main.list_object_plant_view.view.*
 import kotlinx.android.synthetic.main.list_object_plant_view.view.object_imageview
 import kotlinx.android.synthetic.main.list_object_plant_view.view.object_name_textview
 import kotlinx.coroutines.runBlocking
+import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 import kotlin.coroutines.CoroutineContext
 
 
@@ -122,6 +126,16 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
             with(it.context) {
                 val allumer = holder?.objectView?.lamp_allumer_switch.isChecked
                 if(allumer){
+                    runBlocking {
+                        val retrofit = Retrofit.Builder()
+                            .baseUrl("http://192.168.137.1:5000/")
+                            .addConverterFactory(MoshiConverterFactory.create())
+                            .build()
+                        val service = retrofit.create(ObjectService::class.java)
+                        val valeur = "test"
+                        val requestBody = valeur.toRequestBody()
+                        service.postObjects(requestBody)
+                    }
                     Log.d("epf", "true")}
                 if(!allumer){
                     Log.d("epf", "false")}
