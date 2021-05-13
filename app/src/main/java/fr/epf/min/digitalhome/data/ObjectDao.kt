@@ -1,9 +1,6 @@
 package fr.epf.min.digitalhome.data
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import fr.epf.min.digitalhome.model.Object
 
 
@@ -19,9 +16,14 @@ interface ObjectDao {
     @Query("SELECT * FROM objects WHERE name LIKE :name  LIMIT 1")
     suspend fun findByName(name: String): Object
 
+
     @Insert
     suspend fun addObject(`object`:Object)
 
     @Delete
     suspend fun deleteObject(`object`:Object)
+
+    @Update
+    suspend fun changeByName(`object`:Object)
+
 }

@@ -27,7 +27,7 @@
             />
 
         <Switch
-            android:id="@+id/switch1"
+            android:id="@+id/lamp_allumer_switch"
             android:layout_width="158dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

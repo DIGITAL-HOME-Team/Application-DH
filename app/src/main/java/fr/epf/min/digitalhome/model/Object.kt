@@ -15,8 +15,11 @@ data class Object(
         val name:String,
         val type: Type,
         val Temp: Int?,
-        val allumer: Boolean?,
-        val actif: Boolean?
+        val allumer_light: Boolean?,
+        val actif_volet: Int?,
+        val temp_consigne: Int?,
+        val temp_reel: Int?,
+        val pourcentage_eau_plant: Int?
 
 
 ){}

@@ -32,13 +32,11 @@ class ListObjectActivity  : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
-
-
         val intent = intent
 
-        if (intent.hasExtra("type")) {
-            type = intent.getStringExtra("type").toString()
-        }
+
+            type = intent?.getStringExtra("type").toString()
+
         val types = (
                 when (type) {
                     "HEATER" -> Type.HEATER
@@ -104,7 +102,9 @@ class ListObjectActivity  : AppCompatActivity() {
                         },
                         null,
                         null,
-                        null)
+                        null,
+                        null,
+                        null,50)
             }.map{
                 objects.add(it)
                 objectDao.addObject(it)
@@ -121,7 +121,7 @@ class ListObjectActivity  : AppCompatActivity() {
 
 
         runBlocking {  objects = objectDao.getAllObjectsOfType(type).toMutableList()
-            list_objects_recyclerview.adapter = ListObjectAdapter(objects)
+            list_objects_recyclerview.adapter = ListObjectAdapter(objects,this@ListObjectActivity)
         }
 
     }

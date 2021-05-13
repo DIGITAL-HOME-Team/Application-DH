@@ -43,7 +43,12 @@ class AddObjectActivity : AppCompatActivity() {
 
             Dao()
 
-            val `object` = Object(null, "${name}",type,null,null,null)
+            val `object` = Object(null, "${name}",type,
+                    null,
+                    null,
+                    null,
+                    24,
+                    24, 50)
             runBlocking { objectDao.addObject(`object`) }
 
             finish()

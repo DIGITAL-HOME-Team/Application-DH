@@ -28,21 +28,21 @@
             />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/plus_heater_button"
             android:layout_width="52dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@android:drawable/arrow_up_float" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/Temp_consigne_textView"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/less_heater_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
