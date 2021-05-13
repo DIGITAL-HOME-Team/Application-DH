@@ -14,13 +14,15 @@ import fr.epf.min.digitalhome.data.ObjectDataBase
 import fr.epf.min.digitalhome.model.Object
 import kotlinx.android.synthetic.main.activity_details_plant.*
 import kotlinx.coroutines.runBlocking
+import kotlin.properties.Delegates
 
 
 class DetailsPlantActivity : AppCompatActivity() {
 
     lateinit var database: ObjectDataBase
     lateinit var objectDao: ObjectDao
-    lateinit var `object`: String
+    var `object_id` by Delegates.notNull<Int>()
+    lateinit var `object_name`: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details_plant)
@@ -29,11 +31,12 @@ class DetailsPlantActivity : AppCompatActivity() {
 
         val intent = intent
 
-        if (intent.hasExtra("object")) {
-            `object` = intent.getStringExtra("object").toString()
+        if (intent.hasExtra("object_id")) {
+            `object_id` = intent?.getIntExtra("object_id",1)!!
+            `object_name` = intent.getStringExtra("object_name").toString()
         }
 
-        Detail_plant_textview?.text= "${`object`}"
+        Detail_plant_textview?.text= "${`object_name`}"
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -52,7 +55,7 @@ class DetailsPlantActivity : AppCompatActivity() {
 
                             Dao()
                             runBlocking {
-                                val objects = objectDao.findByName("${`object`}")
+                                val objects = objectDao.findByid(`object_id`)
                                 objectDao.deleteObject(objects) }
                             finish()
                             Toast.makeText(this,"Objet supprimé", Toast.LENGTH_SHORT).show()

@@ -18,14 +18,14 @@
             android:id ="@+id/object_imageview"
             android:layout_width="60dp"
             android:layout_height="60dp"/>
+
         <TextView
             android:id="@+id/object_name_textview"
-            tools:text="Prenom Nom"
-            android:layout_margin="8dp"
-            android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="151dp"
             android:layout_height="wrap_content"
-            />
+            android:layout_gravity="center_vertical"
+            android:layout_margin="8dp"
+            tools:text="Prenom Nom" />
 
         <ImageButton
             android:id="@+id/imageButton3"

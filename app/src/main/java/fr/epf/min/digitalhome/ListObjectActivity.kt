@@ -83,7 +83,7 @@ class ListObjectActivity  : AppCompatActivity() {
 
         runBlocking {
             val retrofit = Retrofit.Builder()
-                .baseUrl("http://192.168.137.1:5000/")
+                .baseUrl("http://192.168.1.34:5000/")
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build()
             val service = retrofit.create(ObjectService::class.java)

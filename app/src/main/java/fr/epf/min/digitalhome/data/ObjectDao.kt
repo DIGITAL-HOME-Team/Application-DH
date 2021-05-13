@@ -16,6 +16,10 @@ interface ObjectDao {
     @Query("SELECT * FROM objects WHERE name LIKE :name  LIMIT 1")
     suspend fun findByName(name: String): Object
 
+    @Query("SELECT * FROM objects WHERE id LIKE :id  LIMIT 1")
+    suspend fun findByid(id: Int?): Object
+
+
 
     @Insert
     suspend fun addObject(`object`:Object)

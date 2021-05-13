@@ -10,40 +10,44 @@
     android:gravity="center_vertical">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
         <ImageView
-            tools:src="@drawable/heater"
-            android:id ="@+id/object_imageview"
+            android:id="@+id/object_imageview"
             android:layout_width="60dp"
-            android:layout_height="60dp"/>
+            android:layout_height="60dp"
+            tools:src="@drawable/heater" />
+
         <TextView
             android:id="@+id/object_name_textview"
-            tools:text="Prenom Nom"
-            android:layout_margin="8dp"
-            android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="145dp"
             android:layout_height="wrap_content"
-            />
+            android:layout_gravity="center_vertical"
+            android:layout_margin="8dp"
+            tools:text="Prenom Nom" />
 
         <ImageButton
             android:id="@+id/plus_heater_button"
-            android:layout_width="52dp"
+            android:layout_width="68dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@android:drawable/arrow_up_float" />
 
         <TextView
             android:id="@+id/Temp_consigne_textView"
-            android:layout_width="wrap_content"
+            android:layout_width="38dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+
             android:text="" />
 
         <ImageButton
             android:id="@+id/less_heater_button"
-            android:layout_width="wrap_content"
+            android:layout_width="68dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@android:drawable/arrow_down_float" />

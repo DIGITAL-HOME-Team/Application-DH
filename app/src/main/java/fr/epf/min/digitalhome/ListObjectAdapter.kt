@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.list_object_plant_view.view.*
 import kotlinx.android.synthetic.main.list_object_plant_view.view.object_imageview
 import kotlinx.android.synthetic.main.list_object_plant_view.view.object_name_textview
 import kotlinx.coroutines.runBlocking
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -30,6 +31,9 @@ import kotlin.coroutines.CoroutineContext
 class ListObjectAdapter(val objects: List<Object>,val context: Context) : RecyclerView.Adapter<ListObjectAdapter.ObjectViewHolder>() {
     lateinit var database: ObjectDataBase
     lateinit var objectDao: ObjectDao
+    lateinit var valeur_post_object: String
+    lateinit var uri:String
+    lateinit var changeobject:Object
     class ObjectViewHolder(val objectView: View) : RecyclerView.ViewHolder(objectView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ObjectViewHolder {
@@ -63,9 +67,10 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
                 })
         holder.objectView.setOnClickListener {
             with(it.context) {
-                val `object_name` = `object`.name
+
                 val intent = Intent(this, DetailsPlantActivity::class.java)
-                intent.putExtra("object", `object_name`);
+                intent.putExtra("object_id", `object`.id);
+                intent.putExtra("object_name", `object`.name);
                 startActivity(intent)
 
 
@@ -74,46 +79,57 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
         }
         heater(holder, `object`)
         light(holder, `object`)
-        plant(holder,`object`)
+        plant(holder, `object`)
     }
 
     override fun getItemCount() = objects.size
 
 
     fun heater(holder: ObjectViewHolder?, `object`: Object) {
-        holder?.objectView?.Temp_consigne_textView?.text = `object`?.temp_consigne.toString()
+        uri="heater"
+       runBlocking {   changeobject =objectDao.findByid(`object`.id) }
+
+
+        holder?.objectView?.Temp_consigne_textView?.text = `object`?.temp_consigne.toString()+ "°C"
         holder?.objectView?.plus_heater_button?.setOnClickListener {
             with(it.context) {
-                Log.d("epf", "1")
-                var temp_consigne=`object`.temp_consigne
+
+                var temp_consigne =  changeobject.temp_consigne
                 if (temp_consigne != null) {
                     temp_consigne += 1
                 }
-        var changeobject =  Object(`object`.id, "${`object`.name}",`object`.type,
-                    null,
-                    null,
-                    null,
-                    temp_consigne,
-                    24, 50)
-                runBlocking { objectDao.changeByName(changeobject)}
-                holder?.objectView?.Temp_consigne_textView?.text = `object`?.temp_consigne.toString()
-
-            }
-        }
-        holder?.objectView?.less_heater_button?.setOnClickListener {
-            with(it.context) {
-                var temp_consigne=`object`.temp_consigne
-                if (temp_consigne != null) {
-                    temp_consigne= temp_consigne!! -1
-                }
-                var changeobject =  Object(`object`.id, "${`object`.name}",`object`.type,
+                 changeobject = Object(`object`.id, "${`object`.name}", `object`.type,
                         null,
                         null,
                         null,
                         temp_consigne,
                         24, 50)
-                runBlocking { objectDao.changeByName(changeobject)}
-                holder?.objectView?.Temp_consigne_textView?.text = `object`?.temp_consigne.toString()
+                runBlocking { objectDao.changeByName(changeobject) }
+                valeur_post_object  = "{\"valeur_heater\":\"${temp_consigne}\"}"
+                post_object(valeur_post_object)
+                holder?.objectView?.Temp_consigne_textView?.text = changeobject?.temp_consigne.toString()+ "°C"
+
+
+            }
+
+        }
+
+        holder?.objectView?.less_heater_button?.setOnClickListener {
+            with(it.context) {
+                var temp_consigne =  changeobject.temp_consigne
+                if (temp_consigne != null) {
+                    temp_consigne -= 1
+                }
+                changeobject = Object(`object`.id, "${`object`.name}", `object`.type,
+                        null,
+                        null,
+                        null,
+                        temp_consigne,
+                        24, 50)
+                runBlocking { objectDao.changeByName(changeobject) }
+                valeur_post_object  = "{\"valeur_heater\":\"${temp_consigne}\"}"
+                post_object(valeur_post_object)
+                holder?.objectView?.Temp_consigne_textView?.text = changeobject?.temp_consigne.toString() + "°C"
 
             }
         }
@@ -122,38 +138,35 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
     }
 
     fun light(holder: ObjectViewHolder?, `object`: Object?) {
+
         holder?.objectView?.lamp_allumer_switch?.setOnClickListener {
             with(it.context) {
                 val allumer = holder?.objectView?.lamp_allumer_switch.isChecked
-                if(allumer){
-                    runBlocking {
-                        val retrofit = Retrofit.Builder()
-                            .baseUrl("http://192.168.137.1:5000/")
-                            .addConverterFactory(MoshiConverterFactory.create())
-                            .build()
-                        val service = retrofit.create(ObjectService::class.java)
-                        val valeur = "test"
-                        val requestBody = valeur.toRequestBody()
-                        service.postObjects(requestBody)
-                    }
-                    Log.d("epf", "true")}
-                if(!allumer){
-                    Log.d("epf", "false")}
+                if (allumer) {
+                     valeur_post_object  = "{\"valeur_light\":\"true\"}"
+                }
+
+                if (!allumer) {
+                    valeur_post_object  = "{\"valeur_light\":\"false\"}"
+                }
+                post_object(valeur_post_object)
 
 
             }
         }
     }
 
-    fun plant(holder:ObjectViewHolder?,`object`: Object?){
+    fun plant(holder: ObjectViewHolder?, `object`: Object?) {
 
         holder?.objectView?.Pourcentage_eau_plant_TextView?.text = `object`?.pourcentage_eau_plant.toString() + "%"
 
     }
 
-    fun window(holder:ObjectViewHolder?,position: Int?){}
+    fun window(holder: ObjectViewHolder?, position: Int?) {
 
-    fun Dao(){
+    }
+
+    fun Dao() {
         //accés a la
 
 
@@ -164,5 +177,20 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
 
 
         objectDao = database.getObjectDao()
+    }
+
+    fun post_object(valeur_post_object:String) {
+
+        runBlocking {
+            val retrofit = Retrofit.Builder()
+                    .baseUrl("http://192.168.1.34:5000/")
+                    .addConverterFactory(MoshiConverterFactory.create())
+                    .build()
+            val service = retrofit.create(ObjectService::class.java)
+
+            val requestBody = valeur_post_object.toRequestBody("application/json".toMediaTypeOrNull())
+            service.postObjects(requestBody)
+        }
+
     }
 }
