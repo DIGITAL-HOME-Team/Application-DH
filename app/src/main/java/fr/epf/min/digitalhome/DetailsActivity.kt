@@ -12,31 +12,65 @@ import androidx.room.Room
 import fr.epf.min.digitalhome.data.ObjectDao
 import fr.epf.min.digitalhome.data.ObjectDataBase
 import fr.epf.min.digitalhome.model.Object
+import fr.epf.min.digitalhome.model.Type
+import kotlinx.android.synthetic.main.activity_details_light.*
 import kotlinx.android.synthetic.main.activity_details_plant.*
 import kotlinx.coroutines.runBlocking
 import kotlin.properties.Delegates
 
 
-class DetailsPlantActivity : AppCompatActivity() {
+class DetailsActivity : AppCompatActivity() {
 
     lateinit var database: ObjectDataBase
     lateinit var objectDao: ObjectDao
     var `object_id` by Delegates.notNull<Int>()
     lateinit var `object_name`: String
+   var pourcentage_eau_plant = 0
+    var actif_volet =1
+    var temp_reel by Delegates.notNull<Int>()
+    var temp_consigne by Delegates.notNull<Int>()
+    var allumer_light=false
+    lateinit var type:String
+    var valeur_luminosite by Delegates.notNull<Int>()
+    lateinit var changeobject:Object
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_details_plant)
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         val intent = intent
+        Dao()
+
+
 
         if (intent.hasExtra("object_id")) {
             `object_id` = intent?.getIntExtra("object_id",1)!!
             `object_name` = intent.getStringExtra("object_name").toString()
+            valeur_luminosite= intent?.getIntExtra("valeur_luminosite",1)!!
+            temp_reel=intent?.getIntExtra("temp_reel",1)!!
+            temp_consigne=intent?.getIntExtra("temp_consigne",1)!!
+            actif_volet=intent?.getIntExtra("actif_volet",0)
+            allumer_light=intent?.getBooleanExtra("allumer_light",false)
+            pourcentage_eau_plant=intent?.getIntExtra("pourcentage_eau_plant",0)
+            type = intent?.getStringExtra("type").toString()
         }
 
-        Detail_plant_textview?.text= "${`object_name`}"
+        setContentView(
+                when (type) {
+                    "HEATER" -> R.layout.activity_details_heater
+                    "WINDOW" -> R.layout.activity_details_window
+                    "LIGHT" -> R.layout.activity_details_light
+                    "PLANT" -> R.layout.activity_details_plant
+                    else -> R.layout.activity_details_plant
+                }
+                )
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        when (type) {
+            "HEATER" -> {}
+            "WINDOW" -> {}
+            "LIGHT" -> affiche_detail_light()
+            "PLANT" -> affiche_detail_plant()
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -53,7 +87,7 @@ class DetailsPlantActivity : AppCompatActivity() {
                         .setPositiveButton("Oui"){
                             _,_ ->
 
-                            Dao()
+
                             runBlocking {
                                 val objects = objectDao.findByid(`object_id`)
                                 objectDao.deleteObject(objects) }
@@ -73,9 +107,36 @@ class DetailsPlantActivity : AppCompatActivity() {
     private fun Dao(){
         //accés a la base
         database = Room.databaseBuilder(
-            this, ObjectDataBase::class.java, "clients-db"
+            this, ObjectDataBase::class.java, "objects-db"
 
         ).build()
         objectDao = database.getObjectDao()
     }
+    fun affiche_detail_plant(){
+        change_object()
+        plant_name_textview?.text= "${`object_name`}"
+
+    }
+    fun affiche_detail_light(){
+
+        change_object()
+
+        light_name_textview?.text="${`object_name`}"
+        valeur_luminosite_TextView?.text="${valeur_luminosite}"
+
+    }
+
+    fun change_object(){
+        changeobject = Object(object_id, object_name,
+                Type.LIGHT,
+                allumer_light,
+                actif_volet,
+                temp_consigne,
+                temp_reel,
+                pourcentage_eau_plant,
+                valeur_luminosite)
+        runBlocking { objectDao.changeByName(changeobject) }
+
+    }
+
 }

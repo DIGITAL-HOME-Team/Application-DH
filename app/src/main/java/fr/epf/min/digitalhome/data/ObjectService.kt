@@ -9,12 +9,25 @@ interface ObjectService {
     @GET("/{uri}")
     suspend fun getObjects(@Path("uri") uri:String  ) : GetObjectsResult
 
+    @GET("/{uri}/{type}")
+    suspend fun getObjectsByType(@Path("uri") uri:String ,@Path("type") type:String)  :  GetObjectsByTypeResult
+
     @POST("/setpoint")
     suspend fun postObjects(@Body valeur : RequestBody): Response<ResponseBody>
 }
 
 
 data class GetObjectsResult(val results: List<Object>)
+data class GetObjectsByTypeResult(val results: List<fr.epf.min.digitalhome.model.Object>)
 
-data class Object(val name: String,val type : String)
+
+data class Object(val name: String,
+                  val type : String,
+                  val id:Int,
+                  val temp_reel:Int,
+                  val temp_consigne:Int,
+                    val allumer_light:Boolean,
+                    val pourcentage_eau_plant:Int,
+                    val valeur_luminosite:Int,
+                    val actif_volet:Int)
 

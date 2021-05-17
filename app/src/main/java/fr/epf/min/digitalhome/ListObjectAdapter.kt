@@ -1,14 +1,11 @@
 package fr.epf.min.digitalhome
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.CoroutinesRoom
 import androidx.room.Room
 import fr.epf.min.digitalhome.data.ObjectDao
 import fr.epf.min.digitalhome.data.ObjectDataBase
@@ -25,7 +22,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import kotlin.coroutines.CoroutineContext
 
 
 class ListObjectAdapter(val objects: List<Object>,val context: Context) : RecyclerView.Adapter<ListObjectAdapter.ObjectViewHolder>() {
@@ -67,10 +63,22 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
                 })
         holder.objectView.setOnClickListener {
             with(it.context) {
-
-                val intent = Intent(this, DetailsPlantActivity::class.java)
+                val type = (
+                        when (`object`.type) {
+                            Type.HEATER -> "HEATER"
+                                Type.WINDOW   -> "WINDOW"
+                                Type.LIGHT -> "LIGHT"
+                                Type.PLANT-> "PLANT"
+                        })
+                val intent = Intent(this, DetailsActivity::class.java)
                 intent.putExtra("object_id", `object`.id);
                 intent.putExtra("object_name", `object`.name);
+                intent.putExtra("pourcentage_eau_plant",`object`.pourcentage_eau_plant)
+                intent.putExtra("actif_volet",`object`.actif_volet)
+                intent.putExtra("temp_consigne",`object`.temp_consigne)
+                intent.putExtra("temp_reel",`object`.temp_reel)
+                intent.putExtra("allumer_light",`object`.allumer_light)
+                intent.putExtra("type", type);
                 startActivity(intent)
 
 
@@ -86,7 +94,9 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
 
 
     fun heater(holder: ObjectViewHolder?, `object`: Object) {
+
         uri="heater"
+        try{
        runBlocking {   changeobject =objectDao.findByid(`object`.id) }
 
 
@@ -101,9 +111,9 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
                  changeobject = Object(`object`.id, "${`object`.name}", `object`.type,
                         null,
                         null,
-                        null,
-                        temp_consigne,
-                        24, 50)
+                         temp_consigne,
+                         24,
+                         50,null)
                 runBlocking { objectDao.changeByName(changeobject) }
                 valeur_post_object  = "{\"valeur_heater\":\"${temp_consigne}\"}"
                 post_object(valeur_post_object)
@@ -123,9 +133,9 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
                 changeobject = Object(`object`.id, "${`object`.name}", `object`.type,
                         null,
                         null,
-                        null,
                         temp_consigne,
-                        24, 50)
+                        24,
+                        50,null)
                 runBlocking { objectDao.changeByName(changeobject) }
                 valeur_post_object  = "{\"valeur_heater\":\"${temp_consigne}\"}"
                 post_object(valeur_post_object)
@@ -134,7 +144,10 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
             }
         }
 
+        }
+        catch(e:Exception){
 
+        }
     }
 
     fun light(holder: ObjectViewHolder?, `object`: Object?) {
@@ -171,7 +184,7 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
 
 
         database = Room.databaseBuilder(
-                context, ObjectDataBase::class.java, "clients-db"
+                context, ObjectDataBase::class.java, "objects-db"
 
         ).build()
 
@@ -183,7 +196,7 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
 
         runBlocking {
             val retrofit = Retrofit.Builder()
-                    .baseUrl("http://192.168.1.34:5000/")
+                    .baseUrl("http://192.168.215.196:5000/")
                     .addConverterFactory(MoshiConverterFactory.create())
                     .build()
             val service = retrofit.create(ObjectService::class.java)

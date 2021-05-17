@@ -14,12 +14,12 @@ data class Object(
         @PrimaryKey(autoGenerate = true) val id: Int?,
         val name:String,
         val type: Type,
-        val Temp: Int?,
         val allumer_light: Boolean?,
         val actif_volet: Int?,
         val temp_consigne: Int?,
         val temp_reel: Int?,
-        val pourcentage_eau_plant: Int?
+        val pourcentage_eau_plant: Int?,
+    val valeur_luminosite:Int?
 
 
 ){}

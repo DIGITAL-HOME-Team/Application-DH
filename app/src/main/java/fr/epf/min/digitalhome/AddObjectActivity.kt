@@ -43,7 +43,9 @@ class AddObjectActivity : AppCompatActivity() {
 
             Dao()
 
-            val `object` = Object(null, "${name}",type,
+            val `object` = Object(null,
+                    "${name}",
+                    type,
                     null,
                     null,
                     null,
@@ -63,7 +65,7 @@ class AddObjectActivity : AppCompatActivity() {
 
 
         database = Room.databaseBuilder(
-            this, ObjectDataBase::class.java, "clients-db"
+            this, ObjectDataBase::class.java, "objects-db"
 
         ).build()
 
