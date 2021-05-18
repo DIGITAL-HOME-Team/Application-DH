@@ -30,6 +30,7 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
     lateinit var valeur_post_object: String
     lateinit var uri:String
     lateinit var changeobject:Object
+    var ip="http://192.168.1.34:5000/"
     class ObjectViewHolder(val objectView: View) : RecyclerView.ViewHolder(objectView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ObjectViewHolder {
@@ -196,7 +197,7 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
 
         runBlocking {
             val retrofit = Retrofit.Builder()
-                    .baseUrl("http://192.168.215.196:5000/")
+                    .baseUrl(ip)
                     .addConverterFactory(MoshiConverterFactory.create())
                     .build()
             val service = retrofit.create(ObjectService::class.java)

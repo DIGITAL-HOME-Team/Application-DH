@@ -26,6 +26,7 @@ class ListObjectActivity  : AppCompatActivity() {
     lateinit var type: String
     lateinit var service: ObjectService
     lateinit var result: GetObjectsByTypeResult
+    var ip="http://192.168.1.34:5000/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -81,7 +82,7 @@ class ListObjectActivity  : AppCompatActivity() {
 fun ConnexionBaseMongoDb(){
     runBlocking {
         val retrofit = Retrofit.Builder()
-                .baseUrl("http://192.168.215.196:5000/")
+                .baseUrl(ip)
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build()
         service = retrofit.create(ObjectService::class.java)
@@ -124,6 +125,7 @@ fun ConnexionBaseMongoDb(){
 
 
         runBlocking {
+            objects = objectDao.getAllObjectsOfType(type).toMutableList()
             try {
             ConnexionBaseMongoDb()
                 Log.d("epf","test")
