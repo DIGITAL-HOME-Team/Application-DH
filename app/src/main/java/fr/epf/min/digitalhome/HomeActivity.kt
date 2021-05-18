@@ -11,7 +11,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         
-        this.deleteDatabase ("objects-db") //Ne pas oublier de supprimer
+        //this.deleteDatabase ("objects-db") //Ne pas oublier de supprimer
 
     list_plant_button.setOnClickListener{
         val type :String = "PLANT"

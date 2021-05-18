@@ -11,11 +11,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import fr.epf.min.digitalhome.data.ObjectDao
 import fr.epf.min.digitalhome.data.ObjectDataBase
+import fr.epf.min.digitalhome.data.ObjectService
 import fr.epf.min.digitalhome.model.Object
 import fr.epf.min.digitalhome.model.Type
 import kotlinx.android.synthetic.main.activity_details_light.*
 import kotlinx.android.synthetic.main.activity_details_plant.*
 import kotlinx.coroutines.runBlocking
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 import kotlin.properties.Delegates
 
 
@@ -33,6 +38,8 @@ class DetailsActivity : AppCompatActivity() {
     lateinit var type:String
     var valeur_luminosite by Delegates.notNull<Int>()
     lateinit var changeobject:Object
+    var ip="http://192.168.1.35:5000/"
+    lateinit var service: ObjectService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val intent = intent
@@ -90,7 +97,12 @@ class DetailsActivity : AppCompatActivity() {
 
                             runBlocking {
                                 val objects = objectDao.findByid(`object_id`)
-                                objectDao.deleteObject(objects) }
+                                objectDao.deleteObject(objects)
+                                ConnexionBaseMongoDb()
+                                val object_id_to_string:String=`object_id`.toString()
+
+
+                            service.deleteobject(object_id_to_string)}
                             finish()
                             Toast.makeText(this,"Objet supprimé", Toast.LENGTH_SHORT).show()
                         }
@@ -124,6 +136,7 @@ class DetailsActivity : AppCompatActivity() {
         light_name_textview?.text="${`object_name`}"
         valeur_luminosite_TextView?.text="${valeur_luminosite}"
 
+
     }
 
     fun change_object(){
@@ -136,6 +149,17 @@ class DetailsActivity : AppCompatActivity() {
                 pourcentage_eau_plant,
                 valeur_luminosite)
         runBlocking { objectDao.changeByName(changeobject) }
+
+    }
+
+    fun ConnexionBaseMongoDb(){
+        runBlocking {
+            val retrofit = Retrofit.Builder()
+                    .baseUrl(ip)
+                    .addConverterFactory(MoshiConverterFactory.create())
+                    .build()
+            service = retrofit.create(ObjectService::class.java)
+        }
 
     }
 

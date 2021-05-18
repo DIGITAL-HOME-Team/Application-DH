@@ -13,7 +13,18 @@ interface ObjectService {
     suspend fun getObjectsByType(@Path("uri") uri:String ,@Path("type") type:String)  :  GetObjectsByTypeResult
 
     @POST("/setpoint")
-    suspend fun postObjects(@Body valeur : RequestBody): Response<ResponseBody>
+    suspend fun postSetpoint(@Body valeur : RequestBody): Response<ResponseBody>
+
+    @POST("/update")
+    suspend fun updateObject(@Body valeur : RequestBody): Response<ResponseBody>
+
+    @PUT("/create")
+    suspend fun createObject(@Body valeur : RequestBody): Response<ResponseBody>
+
+    @DELETE("/delete/{id}")
+    suspend fun deleteobject(@Path("id") id:String): Response<ResponseBody>
+
+
 }
 
 

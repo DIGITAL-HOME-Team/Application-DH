@@ -30,7 +30,7 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
     lateinit var valeur_post_object: String
     lateinit var uri:String
     lateinit var changeobject:Object
-    var ip="http://192.168.1.34:5000/"
+    var ip="http://192.168.1.35:5000/"
     class ObjectViewHolder(val objectView: View) : RecyclerView.ViewHolder(objectView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ObjectViewHolder {
@@ -86,15 +86,22 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
             }
 
         }
-        heater(holder, `object`)
-        light(holder, `object`)
+        val type = (
+                when (`object`.type) {
+                    Type.HEATER -> "HEATER"
+                    Type.WINDOW   -> "WINDOW"
+                    Type.LIGHT -> "LIGHT"
+                    Type.PLANT-> "PLANT"
+                })
+        heater(holder, `object`,type)
+        light(holder, `object`,type)
         plant(holder, `object`)
     }
 
     override fun getItemCount() = objects.size
 
 
-    fun heater(holder: ObjectViewHolder?, `object`: Object) {
+    fun heater(holder: ObjectViewHolder?, `object`: Object,type:String) {
 
         uri="heater"
         try{
@@ -116,7 +123,7 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
                          24,
                          50,null)
                 runBlocking { objectDao.changeByName(changeobject) }
-                valeur_post_object  = "{\"valeur_heater\":\"${temp_consigne}\"}"
+                valeur_post_object  = "{\"valeur_heater\":\"${temp_consigne}\",\"id\":${`object`.id},\"type\":\"${type}\"}"
                 post_object(valeur_post_object)
                 holder?.objectView?.Temp_consigne_textView?.text = changeobject?.temp_consigne.toString()+ "°C"
 
@@ -138,7 +145,7 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
                         24,
                         50,null)
                 runBlocking { objectDao.changeByName(changeobject) }
-                valeur_post_object  = "{\"valeur_heater\":\"${temp_consigne}\"}"
+                valeur_post_object  = "{\"valeur_heater\":\"${temp_consigne}\",\"id\":${`object`.id},\"type\":\"${type}\"}"
                 post_object(valeur_post_object)
                 holder?.objectView?.Temp_consigne_textView?.text = changeobject?.temp_consigne.toString() + "°C"
 
@@ -151,17 +158,23 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
         }
     }
 
-    fun light(holder: ObjectViewHolder?, `object`: Object?) {
+    fun light(holder: ObjectViewHolder?, `object`: Object?,type:String) {
 
         holder?.objectView?.lamp_allumer_switch?.setOnClickListener {
             with(it.context) {
+
                 val allumer = holder?.objectView?.lamp_allumer_switch.isChecked
+
                 if (allumer) {
-                     valeur_post_object  = "{\"valeur_light\":\"true\"}"
+                    if (`object` != null) {
+                        valeur_post_object  = "{\"valeur_light\":\"true\",\"id\":${`object`.id},\"type\":\"${type}\"}"
+                    }
                 }
 
                 if (!allumer) {
-                    valeur_post_object  = "{\"valeur_light\":\"false\"}"
+                    if (`object` != null) {
+                        valeur_post_object  = "{\"valeur_light\":\"false\",\"id\":${`object`.id},\"type\":\"${type}\"}"
+                    }
                 }
                 post_object(valeur_post_object)
 
@@ -203,7 +216,7 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
             val service = retrofit.create(ObjectService::class.java)
 
             val requestBody = valeur_post_object.toRequestBody("application/json".toMediaTypeOrNull())
-            service.postObjects(requestBody)
+            service.postSetpoint(requestBody)
         }
 
     }

@@ -13,15 +13,21 @@ import fr.epf.min.digitalhome.model.Type
 import kotlinx.android.synthetic.main.activity_add_object.*
 import kotlinx.android.synthetic.main.activity_object.*
 import kotlinx.coroutines.runBlocking
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import kotlin.properties.Delegates
 
 class AddObjectActivity : AppCompatActivity() {
 
 
     lateinit var database: ObjectDataBase
     lateinit var objectDao: ObjectDao
-
+    var ip="http://192.168.1.35:5000/"
+    lateinit var service: ObjectService
+    lateinit var object_type:String
+    var idobject by Delegates.notNull<Long>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_object)
@@ -34,11 +40,19 @@ class AddObjectActivity : AppCompatActivity() {
 
             var type :Type=(
             when (object_id) {
-                object_heater_radiobutton.id  -> Type.HEATER
-                object_window_radiobutton.id -> Type.WINDOW
-                object_light_radiobutton.id-> Type.LIGHT
-                object_plant_radiobutton.id -> Type.PLANT
+                object_heater_radiobutton.id  -> {Type.HEATER }
+                object_window_radiobutton.id -> {Type.WINDOW }
+                object_light_radiobutton.id-> {Type.LIGHT }
+                object_plant_radiobutton.id -> {Type.PLANT }
                 else -> Type.PLANT
+            })
+            object_type=(
+            when (object_id) {
+                object_heater_radiobutton.id  -> {"HEATER" }
+                object_window_radiobutton.id -> {"WINDOW" }
+                object_light_radiobutton.id-> {"LIGHT" }
+                object_plant_radiobutton.id -> {"PLANT" }
+                else -> "PLANT"
             })
 
             Dao()
@@ -51,7 +65,16 @@ class AddObjectActivity : AppCompatActivity() {
                     null,
                     24,
                     24, 50)
-            runBlocking { objectDao.addObject(`object`) }
+
+            runBlocking {
+                idobject=objectDao.addObject(`object`)
+                ConnexionBaseMongoDb()
+                val objectToMongoDB="{\"json\":{\"name\":\"${name}\",\"type\":\"${object_type}\",\"allumer_light\": false,\"actif_volet\": 0,\"temp_consigne\": 24,\"temp_reel\": 24,\"pourcentage_eau_plant\": 50,\"valeur_luminosite\": 50, \"id\": ${idobject}}}"
+
+                val requestBody = objectToMongoDB.toRequestBody("application/json".toMediaTypeOrNull())
+                service.createObject(requestBody)
+
+                }
 
             finish()
 
@@ -72,7 +95,16 @@ class AddObjectActivity : AppCompatActivity() {
 
         objectDao = database.getObjectDao()
     }
+    fun ConnexionBaseMongoDb(){
+        runBlocking {
+            val retrofit = Retrofit.Builder()
+                    .baseUrl(ip)
+                    .addConverterFactory(MoshiConverterFactory.create())
+                    .build()
+            service = retrofit.create(ObjectService::class.java)
+        }
 
+    }
 
 
 }

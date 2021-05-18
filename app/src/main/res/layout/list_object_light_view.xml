@@ -31,7 +31,9 @@
             android:layout_width="158dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Switch" />
+            android:text=""
+            />
+
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

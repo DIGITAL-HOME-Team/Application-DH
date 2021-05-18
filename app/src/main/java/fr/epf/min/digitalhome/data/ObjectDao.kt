@@ -22,7 +22,7 @@ interface ObjectDao {
 
 
     @Insert
-    suspend fun addObject(`object`:Object)
+    suspend fun addObject(`object`:Object) :Long
 
     @Delete
     suspend fun deleteObject(`object`:Object)

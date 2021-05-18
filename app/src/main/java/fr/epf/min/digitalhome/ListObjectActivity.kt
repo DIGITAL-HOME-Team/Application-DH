@@ -26,7 +26,7 @@ class ListObjectActivity  : AppCompatActivity() {
     lateinit var type: String
     lateinit var service: ObjectService
     lateinit var result: GetObjectsByTypeResult
-    var ip="http://192.168.1.34:5000/"
+    var ip="http://192.168.1.35:5000/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -89,34 +89,8 @@ fun ConnexionBaseMongoDb(){
     }
 
 }
-    //fun synchro() {
-//
-  //      runBlocking {
-    //    ConnexionBaseMongoDb()
-       //     result = service.getObjects("test")
-         //   Log.d("EPF","$result")
-           // val users= result.results
-            //users.map{
-              //  Object(null,it.name,
-                //        when(it.type){
-                  //     "PLANT" -> Type.PLANT
-                    //        "HEATER" -> Type.HEATER
-                      //  "WINDOW" -> Type.WINDOW
-                      //  "LIGHT"-> Type.LIGHT
-                        //    else -> Type.LIGHT
-                       // },
-                        //null,
-                       // null,
-                        //null,
-                       // null,
-                       // 50,null)
-          //  }.map{
-                //objects.add(it)
-            //    objectDao.addObject(it)
-           // }
-      //  }
+
       //  list_objects_recyclerview.adapter?.notifyDataSetChanged()
-   // }
 
     override fun onStart() {
 
@@ -130,7 +104,7 @@ fun ConnexionBaseMongoDb(){
             ConnexionBaseMongoDb()
                 Log.d("epf","test")
                result=service.getObjectsByType("listbytype",type)
-            val objects= result.results
+            objects= result.results
             objects.map{
                 Object(it.id,it.name,
                        it.type,
@@ -141,14 +115,18 @@ fun ConnexionBaseMongoDb(){
                         it.pourcentage_eau_plant,it.valeur_luminosite)
 
             }.map{
+                Log.d("epf", it.id.toString())
 
-                 objectDao.addObject(it)}
-
-
+                try{
+                    val object_database_local=objectDao.findByid(it.id)
+                    Log.d("epf", object_database_local.toString())
+                }catch (e:Exception){
+                    objectDao.addObject(it)}
+                 }
 
 
             }catch (e:Exception){
-                Log.d("epf", e.toString())
+                Log.d("epf", "tot")
            objects = objectDao.getAllObjectsOfType(type).toMutableList()}
 
             list_objects_recyclerview.adapter = ListObjectAdapter(objects,this@ListObjectActivity)
