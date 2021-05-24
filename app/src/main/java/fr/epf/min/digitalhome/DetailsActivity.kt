@@ -1,7 +1,6 @@
 package fr.epf.min.digitalhome
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -14,6 +13,7 @@ import fr.epf.min.digitalhome.data.ObjectDataBase
 import fr.epf.min.digitalhome.data.ObjectService
 import fr.epf.min.digitalhome.model.Object
 import fr.epf.min.digitalhome.model.Type
+import kotlinx.android.synthetic.main.activity_add_object.*
 import kotlinx.android.synthetic.main.activity_details_light.*
 import kotlinx.android.synthetic.main.activity_details_plant.*
 import kotlinx.coroutines.runBlocking
@@ -30,16 +30,27 @@ class DetailsActivity : AppCompatActivity() {
     lateinit var objectDao: ObjectDao
     var `object_id` by Delegates.notNull<Int>()
     lateinit var `object_name`: String
-   var pourcentage_eau_plant = 0
+   var humidite_plant_reel = 0
     var actif_volet =1
     var temp_reel by Delegates.notNull<Int>()
     var temp_consigne by Delegates.notNull<Int>()
     var allumer_light=false
     lateinit var type:String
     var valeur_luminosite by Delegates.notNull<Int>()
+    var ph by Delegates.notNull<Int>()
+    var humidite_air by Delegates.notNull<Int>()
+    var nombre_arrosage by Delegates.notNull<Int>()
+    var volume_eau_journalier by Delegates.notNull<Int>()
+    var concentration_co2 by Delegates.notNull<Int>()
+    var concentration_lgp by Delegates.notNull<Int>()
+    var concentration_fumee by Delegates.notNull<Int>()
+    var humidite_plant_consigne by Delegates.notNull<Int>()
     lateinit var changeobject:Object
-    var ip="http://192.168.1.35:5000/"
+    var choix_plant=true
+    var ip="http://192.168.1.158:5000/"
     lateinit var service: ObjectService
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val intent = intent
@@ -55,8 +66,18 @@ class DetailsActivity : AppCompatActivity() {
             temp_consigne=intent?.getIntExtra("temp_consigne",1)!!
             actif_volet=intent?.getIntExtra("actif_volet",0)
             allumer_light=intent?.getBooleanExtra("allumer_light",false)
-            pourcentage_eau_plant=intent?.getIntExtra("pourcentage_eau_plant",0)
+            humidite_plant_reel=intent?.getIntExtra("pourcentage_eau_plant",0)
             type = intent?.getStringExtra("type").toString()
+
+            ph =intent?.getIntExtra("ph",0)
+            humidite_air =intent?.getIntExtra("humidite_air",0)
+            nombre_arrosage =intent?.getIntExtra("nombre_arrosage",0)
+            volume_eau_journalier =intent?.getIntExtra("volume_eau_journalier",0)
+            concentration_co2 =intent?.getIntExtra("concentration_co2",0)
+            concentration_lgp= intent?.getIntExtra("concentration_lgp",0)
+            concentration_fumee= intent?.getIntExtra("concentration_fumee",0)
+            humidite_plant_consigne =intent?.getIntExtra("humidite_plant_consigne",0)
+            choix_plant=intent?.getBooleanExtra("choix_plant",true)
         }
 
         setContentView(
@@ -125,30 +146,80 @@ class DetailsActivity : AppCompatActivity() {
         objectDao = database.getObjectDao()
     }
     fun affiche_detail_plant(){
-        change_object()
+        change_object(type,humidite_plant_consigne,nombre_arrosage,volume_eau_journalier,choix_plant)
         plant_name_textview?.text= "${`object_name`}"
+        ph_textview?.text="${ph}"
+        humidite_air_textview?.text="${humidite_air}"
+        nombre_arrosage_textview?.text="Nombre d'arrosage : ${nombre_arrosage}"
+        volume_eau_journalier_textview?.text="Volume d'eau journalier : ${volume_eau_journalier}"
+        concentration_co2_textview?.text="${concentration_co2}"
+        concentration_lgp_textview?.text="${concentration_lgp}"
+        concentration_fumee_textview?.text="${concentration_fumee}"
+        humidite_plant_reel_textview?.text="${humidite_plant_reel}"
+        titre_humidite_plant_consigne_textview?.text="Humidité du sol consigne : ${humidite_plant_consigne}"
+
+        var choix_plant_radiobutton= Plant_choix_RadioGroup.checkedRadioButtonId as Int
+        var choix_plant=(
+                when (choix_plant_radiobutton) {
+                    plant_automatique_radiobutton.id -> {true }
+                    plant_consigne_radiobutton.id -> {false }
+                    else -> true
+                })
+
+        Modify_consign_plant_button.setOnClickListener {
+          var  new_humidite_plant_consign = humidite_plant_consigne_edittext.text.toString()
+            var new_Nombre_Arossage =nombre_arrosage_edittext.text.toString()
+           var  new_Volume_Eau_Journalier =volume_eau_journalier_edittext.text.toString()
+            change_object(type,new_humidite_plant_consign.toInt(),new_Nombre_Arossage.toInt(),new_Volume_Eau_Journalier.toInt(),choix_plant)
+            finish()
+        }
+
 
     }
     fun affiche_detail_light(){
 
-        change_object()
+        change_object(type,humidite_plant_consigne,nombre_arrosage,volume_eau_journalier,choix_plant)
 
         light_name_textview?.text="${`object_name`}"
         valeur_luminosite_TextView?.text="${valeur_luminosite}"
 
 
+
+
     }
 
-    fun change_object(){
+    fun change_object(type:String?,humidite_plant_consigne:Int?,nombre_arrosage:Int?,volume_eau_journalier:Int?,choix_plant:Boolean){
+        var type_Object=(
+        when (type) {
+            "HEATER" -> Type.HEATER
+            "WINDOW" -> Type.WINDOW
+            "LIGHT" ->Type.LIGHT
+            "PLANT" -> Type.PLANT
+            else -> Type.PLANT
+        })
+
         changeobject = Object(object_id, object_name,
-                Type.LIGHT,
+                type_Object,
                 allumer_light,
                 actif_volet,
                 temp_consigne,
                 temp_reel,
-                pourcentage_eau_plant,
-                valeur_luminosite)
+                humidite_plant_reel,
+                valeur_luminosite,
+                ph,
+                humidite_air,
+                nombre_arrosage,
+                volume_eau_journalier,
+                concentration_co2,
+                concentration_lgp,
+                concentration_fumee,
+                humidite_plant_consigne,
+                choix_plant)
         runBlocking { objectDao.changeByName(changeobject) }
+
+
+        var valeur_post_object  = "{\"valeur_humidite_consigne\":${humidite_plant_consigne},\"valeur_nombre_arrosage\":${nombre_arrosage},\"valeur_volume_eau_journalier\":${volume_eau_journalier},\"choix_plant\":${choix_plant},\"id\":${object_id},\"type\":\"${type}\"}"
+        post_object(valeur_post_object)
 
     }
 
@@ -159,8 +230,19 @@ class DetailsActivity : AppCompatActivity() {
                     .addConverterFactory(MoshiConverterFactory.create())
                     .build()
             service = retrofit.create(ObjectService::class.java)
+
+        }
+
+
+
+    }
+    fun post_object(valeur_post_object:String) {
+
+       ConnexionBaseMongoDb()
+runBlocking {
+            val requestBody = valeur_post_object.toRequestBody("application/json".toMediaTypeOrNull())
+            service.postSetpoint(requestBody)}
         }
 
     }
 
-}

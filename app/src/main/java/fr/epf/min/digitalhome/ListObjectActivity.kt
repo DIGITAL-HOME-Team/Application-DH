@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.PrimaryKey
 import androidx.room.Room
 import fr.epf.min.digitalhome.data.*
 import fr.epf.min.digitalhome.model.Object
@@ -26,7 +27,7 @@ class ListObjectActivity  : AppCompatActivity() {
     lateinit var type: String
     lateinit var service: ObjectService
     lateinit var result: GetObjectsByTypeResult
-    var ip="http://192.168.1.35:5000/"
+    var ip="http://192.168.1.158:5000/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -106,13 +107,25 @@ fun ConnexionBaseMongoDb(){
                result=service.getObjectsByType("listbytype",type)
             objects= result.results
             objects.map{
-                Object(it.id,it.name,
+                Object(it.id,
+                        it.name,
                        it.type,
                         it.allumer_light,
                         it.actif_volet,
                         it.temp_consigne,
                         it.temp_reel,
-                        it.pourcentage_eau_plant,it.valeur_luminosite)
+                        it.humidite_plant_reel,
+                        it.valeur_luminosite,
+                        it.ph,
+                        it.humidite_air,
+                        it.nombre_arrosage,
+                        it.volume_eau_journalier,
+                        it.concentration_co2,
+                        it.concentration_lgp,
+                        it.concentration_fumee,
+                        it.humidite_plant_consigne,
+                        it.choix_plant)
+
 
             }.map{
                 Log.d("epf", it.id.toString())

@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DetailsActivity" android:parentActivityName=".ListObjectActivity" />
+        <activity android:name=".DetailsActivity" android:parentActivityName=".HomeActivity" />
         <activity android:name=".AddObjectActivity"  />
     </application>
 

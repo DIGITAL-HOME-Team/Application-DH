@@ -30,7 +30,7 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
     lateinit var valeur_post_object: String
     lateinit var uri:String
     lateinit var changeobject:Object
-    var ip="http://192.168.1.35:5000/"
+    var ip="http://192.168.1.158:5000/"
     class ObjectViewHolder(val objectView: View) : RecyclerView.ViewHolder(objectView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ObjectViewHolder {
@@ -74,14 +74,24 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
                 val intent = Intent(this, DetailsActivity::class.java)
                 intent.putExtra("object_id", `object`.id);
                 intent.putExtra("object_name", `object`.name);
-                intent.putExtra("pourcentage_eau_plant",`object`.pourcentage_eau_plant)
+                intent.putExtra("valeur_luminosite",`object`.valeur_luminosite)
+                intent.putExtra("pourcentage_eau_plant",`object`.humidite_plant_reel)
                 intent.putExtra("actif_volet",`object`.actif_volet)
                 intent.putExtra("temp_consigne",`object`.temp_consigne)
                 intent.putExtra("temp_reel",`object`.temp_reel)
                 intent.putExtra("allumer_light",`object`.allumer_light)
-                intent.putExtra("type", type);
+                intent.putExtra("ph",`object`.ph)
+                intent.putExtra("humidite_air",`object`.humidite_air)
+                intent.putExtra("nombre_arrosage",`object`.nombre_arrosage)
+                intent.putExtra("volume_eau_journalier",`object`.volume_eau_journalier)
+                intent.putExtra("concentration_co2",`object`.concentration_co2)
+                intent.putExtra("concentration_lgp",`object`.concentration_lgp)
+                intent.putExtra("concentration_fumee",`object`.concentration_fumee)
+                intent.putExtra("humidite_plant_consigne",`object`.humidite_plant_consigne)
+                intent.putExtra("humidite_plant_reel",`object`.humidite_plant_reel)
+                intent.putExtra("type", type)
+                intent.putExtra("choix_plant",`object`.choix_plant)
                 startActivity(intent)
-
 
             }
 
@@ -120,8 +130,18 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
                         null,
                         null,
                          temp_consigne,
-                         24,
-                         50,null)
+                         `object`.temp_reel,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                                    null)
                 runBlocking { objectDao.changeByName(changeobject) }
                 valeur_post_object  = "{\"valeur_heater\":\"${temp_consigne}\",\"id\":${`object`.id},\"type\":\"${type}\"}"
                 post_object(valeur_post_object)
@@ -142,8 +162,18 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
                         null,
                         null,
                         temp_consigne,
-                        24,
-                        50,null)
+                        `object`.temp_reel,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                                    null)
                 runBlocking { objectDao.changeByName(changeobject) }
                 valeur_post_object  = "{\"valeur_heater\":\"${temp_consigne}\",\"id\":${`object`.id},\"type\":\"${type}\"}"
                 post_object(valeur_post_object)
@@ -167,12 +197,46 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
 
                 if (allumer) {
                     if (`object` != null) {
+                        changeobject = Object(`object`.id, "${`object`.name}", `object`.type,
+                                allumer,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null)
+                        runBlocking { objectDao.changeByName(changeobject) }
                         valeur_post_object  = "{\"valeur_light\":\"true\",\"id\":${`object`.id},\"type\":\"${type}\"}"
                     }
                 }
 
                 if (!allumer) {
                     if (`object` != null) {
+                        changeobject = Object(`object`.id, "${`object`.name}", `object`.type,
+                                allumer,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null)
+                        runBlocking { objectDao.changeByName(changeobject) }
                         valeur_post_object  = "{\"valeur_light\":\"false\",\"id\":${`object`.id},\"type\":\"${type}\"}"
                     }
                 }
@@ -185,7 +249,7 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
 
     fun plant(holder: ObjectViewHolder?, `object`: Object?) {
 
-        holder?.objectView?.Pourcentage_eau_plant_TextView?.text = `object`?.pourcentage_eau_plant.toString() + "%"
+        holder?.objectView?.Pourcentage_eau_plant_TextView?.text = `object`?.humidite_plant_reel.toString() + "%"
 
     }
 

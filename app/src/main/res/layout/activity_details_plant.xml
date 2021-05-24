@@ -1,15 +1,308 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/plant_name_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="85dp"
-        tools:layout_editor_absoluteY="129dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="8dp"
+        android:shrinkColumns="0,1">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/titre_plant_name_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nom"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/humidite_sol_textview"
+                app:layout_constraintVertical_bias="0.203"
+                tools:layout_editor_absoluteX="125dp"
+                tools:text="nom"
+                />
+            <RadioGroup
+                android:id="@+id/Plant_choix_RadioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <RadioButton
+                    android:id="@+id/plant_consigne_radiobutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Automatique" />
+                <RadioButton
+                    android:id="@+id/plant_automatique_radiobutton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Consigne" />
+
+
+            </RadioGroup>
+
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/plant_name_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/humidite_sol_textview"
+                app:layout_constraintVertical_bias="0.203"
+                tools:layout_editor_absoluteX="125dp"
+                tools:text="valeur nom" />
+
+
+            <TextView
+                android:id="@+id/humidite_sol_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                app:layout_constraintTop_toBottomOf="@+id/ph_textview"
+                tools:layout_editor_absoluteX="105dp"
+                tools:text="valeur humidité sol" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/titre_ph_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="pH"
+                app:layout_constraintTop_toBottomOf="@+id/humidite_air_textview"
+                tools:layout_editor_absoluteX="105dp"
+                tools:text="ph" />
+
+            <TextView
+                android:id="@+id/titre_humidite_air_textview"
+                android:layout_width="224dp"
+                android:layout_height="wrap_content"
+                android:text="Humidité air"
+                app:layout_constraintTop_toBottomOf="@+id/nombre_arrosage_textview"
+                tools:layout_editor_absoluteX="105dp"
+                tools:text="humidité air" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/ph_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                app:layout_constraintTop_toBottomOf="@+id/humidite_air_textview"
+                tools:layout_editor_absoluteX="105dp"
+                tools:text="valeur ph" />
+
+            <TextView
+                android:id="@+id/humidite_air_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                app:layout_constraintTop_toBottomOf="@+id/nombre_arrosage_textview"
+                tools:layout_editor_absoluteX="105dp"
+                tools:text="valeur humidité air" />
+        </TableRow>
+
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/titre_concentration_co2_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Concentration co2"
+                app:layout_constraintTop_toBottomOf="@+id/concentration_lgp_textview"
+                tools:layout_editor_absoluteX="16dp"
+                tools:text="concentration co2" />
+
+            <TextView
+                android:id="@+id/titre_concentration_lgp_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Concentration lgp"
+                app:layout_constraintTop_toBottomOf="@+id/concentration_fumee_textview"
+                tools:layout_editor_absoluteX="16dp"
+                tools:text="concentration lgp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/concentration_co2_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                app:layout_constraintTop_toBottomOf="@+id/concentration_lgp_textview"
+                tools:layout_editor_absoluteX="16dp"
+                tools:text="valeur concentration co2" />
+
+            <TextView
+                android:id="@+id/concentration_lgp_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                app:layout_constraintTop_toBottomOf="@+id/concentration_fumee_textview"
+                tools:layout_editor_absoluteX="16dp"
+                tools:text="valeur concentration lgp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/titre_concentration_fumee_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Concentration fumée"
+                app:layout_constraintTop_toBottomOf="@+id/humidite_plant_consigne_textview"
+                tools:layout_editor_absoluteX="16dp"
+                tools:text="concentration fumée" />
+
+
+            <TextView
+                android:id="@+id/titre_humidite_plant_reel_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Humidité plante réel"
+                app:layout_constraintTop_toBottomOf="@+id/concentration_co2_textview"
+                tools:layout_editor_absoluteX="16dp"
+                tools:text="humidité plante réel" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/concentration_fumee_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                app:layout_constraintTop_toBottomOf="@+id/humidite_plant_consigne_textview"
+                tools:layout_editor_absoluteX="16dp"
+                tools:text="valeur concentration fumée" />
+
+
+            <TextView
+                android:id="@+id/humidite_plant_reel_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="TextView"
+                app:layout_constraintTop_toBottomOf="@+id/concentration_co2_textview"
+                tools:layout_editor_absoluteX="16dp"
+                tools:text="valeur humidité plante réel" />
+        </TableRow>
+
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/nombre_arrosage_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Nombre arrosage"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="105dp"
+                tools:text="nombre arrosage" />
+
+            <TextView
+                android:id="@+id/volume_eau_journalier_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Volume d'eau journalier"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/humidite_plant_reel_textview"
+                tools:layout_editor_absoluteX="16dp"
+                tools:text="volume d'eau journalier" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="8dp">
+
+            <EditText
+                android:id="@+id/nombre_arrosage_edittext"
+                android:layout_width="187dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/volume_eau_journalier_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/titre_humidite_plant_consigne_textview"
+                android:layout_width="206dp"
+                android:layout_height="wrap_content"
+                android:text="Humidité plante consigne"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="16dp"
+                tools:text="humidité plante consigne" />
+
+            <EditText
+                android:id="@+id/humidite_plant_consigne_edittext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="16dp"
+                tools:text="" />
+        </TableRow>
+
+            <Button
+                android:id="@+id/Modify_consign_plant_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/modifier_les_valeur_consignes"
+                android:textAlignment="center" />
+
+
+    </TableLayout>
+</LinearLayout>

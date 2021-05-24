@@ -7,4 +7,5 @@
     <string name="object_plant">Plant</string>
     <string name="object_window">Window</string>
     <string name="object_heater">Heater</string>
+    <string name="modifier_les_valeur_consignes">Modifier les valeur consignes</string>
 </resources>

@@ -18,8 +18,18 @@ data class Object(
         val actif_volet: Int?,
         val temp_consigne: Int?,
         val temp_reel: Int?,
-        val pourcentage_eau_plant: Int?,
-    val valeur_luminosite:Int?
+        val humidite_plant_reel: Int?,
+        val valeur_luminosite:Int?,
+        val ph : Int?,
+        val humidite_air : Int?,
+        val nombre_arrosage :Int?,
+        val volume_eau_journalier : Int?,
+        val concentration_co2:Int?,
+        val concentration_lgp:Int?,
+        val concentration_fumee:Int?,
+        val humidite_plant_consigne:Int?,
+        val choix_plant:Boolean?
+
 
 
 ){}
