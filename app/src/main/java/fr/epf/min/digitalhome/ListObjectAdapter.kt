@@ -91,6 +91,7 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
                 intent.putExtra("humidite_plant_reel",`object`.humidite_plant_reel)
                 intent.putExtra("type", type)
                 intent.putExtra("choix_plant",`object`.choix_plant)
+                intent.putExtra("luminosite_consigne",`object`.luminosite_consgine)
                 startActivity(intent)
 
             }
@@ -141,7 +142,8 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
                          null,
                          null,
                          null,
-                                    null)
+                                    null,
+                 null)
                 runBlocking { objectDao.changeByName(changeobject) }
                 valeur_post_object  = "{\"valeur_heater\":\"${temp_consigne}\",\"id\":${`object`.id},\"type\":\"${type}\"}"
                 post_object(valeur_post_object)
@@ -173,7 +175,8 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
                         null,
                         null,
                         null,
-                                    null)
+                                    null,
+                null)
                 runBlocking { objectDao.changeByName(changeobject) }
                 valeur_post_object  = "{\"valeur_heater\":\"${temp_consigne}\",\"id\":${`object`.id},\"type\":\"${type}\"}"
                 post_object(valeur_post_object)
@@ -212,7 +215,8 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
                                 null,
                                 null,
                                 null,
-                                null)
+                                null,
+                        null)
                         runBlocking { objectDao.changeByName(changeobject) }
                         valeur_post_object  = "{\"valeur_light\":\"true\",\"id\":${`object`.id},\"type\":\"${type}\"}"
                     }
@@ -235,7 +239,8 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
                                 null,
                                 null,
                                 null,
-                                null)
+                                null,
+                        null)
                         runBlocking { objectDao.changeByName(changeobject) }
                         valeur_post_object  = "{\"valeur_light\":\"false\",\"id\":${`object`.id},\"type\":\"${type}\"}"
                     }

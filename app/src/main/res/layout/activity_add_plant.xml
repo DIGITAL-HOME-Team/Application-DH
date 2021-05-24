@@ -15,50 +15,55 @@
 
 
     <EditText
-        android:id="@+id/object_name_edittext"
+        android:id="@+id/plant_name_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 
-    <RadioGroup
-        android:id="@+id/object_type_RadioGroup"
+    <TextView
+        android:id="@+id/volume_eau_journalier_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:text="Volume d'eau journalier"
+        tools:text="volume d'eau journalier" />
 
 
-        <RadioButton
-            android:id="@+id/object_heater_radiobutton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/object_heater" />
-        <RadioButton
-            android:id="@+id/object_window_radiobutton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/object_window" />
+    <EditText
+        android:id="@+id/volume_eau_journalier_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-        <RadioButton
-            android:id="@+id/object_plant_radiobutton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/object_plant" />
+    <TextView
+        android:id="@+id/nombre_arrosage_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre arrosage"
+        tools:text="nombre arrosage" />
 
-        <RadioButton
-            android:id="@+id/object_light_radiobutton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/object_light" />
-
-    </RadioGroup>
+    <EditText
+        android:id="@+id/nombre_arrosage_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
+    <TextView
+        android:id="@+id/titre_humidite_plant_consigne_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Humidité plante consigne"
+
+        tools:text="humidité plante consigne" />
+
+    <EditText
+        android:id="@+id/humidite_plant_consigne_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/object_add_button"
+        android:id="@+id/plant_add_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/object_add" />
+        android:text="@string/ajouter_la_plante" />
 
 
 

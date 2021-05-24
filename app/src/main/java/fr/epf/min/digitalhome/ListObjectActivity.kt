@@ -70,6 +70,7 @@ class ListObjectActivity  : AppCompatActivity() {
         when(item.itemId) {
             R.id.add_object_action -> {
                 val intent = Intent(this, AddObjectActivity::class.java)
+                        .putExtra("type",type)
                 startActivity(intent)
 
             }
@@ -124,7 +125,9 @@ fun ConnexionBaseMongoDb(){
                         it.concentration_lgp,
                         it.concentration_fumee,
                         it.humidite_plant_consigne,
-                        it.choix_plant)
+                        it.choix_plant,
+                        it.luminosite_consgine
+                )
 
 
             }.map{

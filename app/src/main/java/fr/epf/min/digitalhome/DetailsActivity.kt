@@ -13,7 +13,6 @@ import fr.epf.min.digitalhome.data.ObjectDataBase
 import fr.epf.min.digitalhome.data.ObjectService
 import fr.epf.min.digitalhome.model.Object
 import fr.epf.min.digitalhome.model.Type
-import kotlinx.android.synthetic.main.activity_add_object.*
 import kotlinx.android.synthetic.main.activity_details_light.*
 import kotlinx.android.synthetic.main.activity_details_plant.*
 import kotlinx.coroutines.runBlocking
@@ -45,6 +44,7 @@ class DetailsActivity : AppCompatActivity() {
     var concentration_lgp by Delegates.notNull<Int>()
     var concentration_fumee by Delegates.notNull<Int>()
     var humidite_plant_consigne by Delegates.notNull<Int>()
+    var luminosite_consgine by Delegates.notNull<Int>()
     lateinit var changeobject:Object
     var choix_plant=true
     var ip="http://192.168.1.158:5000/"
@@ -78,6 +78,7 @@ class DetailsActivity : AppCompatActivity() {
             concentration_fumee= intent?.getIntExtra("concentration_fumee",0)
             humidite_plant_consigne =intent?.getIntExtra("humidite_plant_consigne",0)
             choix_plant=intent?.getBooleanExtra("choix_plant",true)
+            luminosite_consgine=intent?.getIntExtra("luminosite_consgine",0)
         }
 
         setContentView(
@@ -150,13 +151,13 @@ class DetailsActivity : AppCompatActivity() {
         plant_name_textview?.text= "${`object_name`}"
         ph_textview?.text="${ph}"
         humidite_air_textview?.text="${humidite_air}"
-        nombre_arrosage_textview?.text="Nombre d'arrosage : ${nombre_arrosage}"
-        volume_eau_journalier_textview?.text="Volume d'eau journalier : ${volume_eau_journalier}"
+        nombre_arrosage_detail_textview?.text="Nombre d'arrosage : ${nombre_arrosage}"
+        volume_eau_journalier_detail_textview?.text="Volume d'eau journalier : ${volume_eau_journalier}"
         concentration_co2_textview?.text="${concentration_co2}"
         concentration_lgp_textview?.text="${concentration_lgp}"
         concentration_fumee_textview?.text="${concentration_fumee}"
         humidite_plant_reel_textview?.text="${humidite_plant_reel}"
-        titre_humidite_plant_consigne_textview?.text="Humidité du sol consigne : ${humidite_plant_consigne}"
+        titre_humidite_plant_consigne_detail_textview?.text="Humidité du sol consigne : ${humidite_plant_consigne}"
 
         var choix_plant_radiobutton= Plant_choix_RadioGroup.checkedRadioButtonId as Int
         var choix_plant=(
@@ -167,9 +168,9 @@ class DetailsActivity : AppCompatActivity() {
                 })
 
         Modify_consign_plant_button.setOnClickListener {
-          var  new_humidite_plant_consign = humidite_plant_consigne_edittext.text.toString()
-            var new_Nombre_Arossage =nombre_arrosage_edittext.text.toString()
-           var  new_Volume_Eau_Journalier =volume_eau_journalier_edittext.text.toString()
+          var  new_humidite_plant_consign = humidite_plant_consigne_detail_edittext.text.toString()
+            var new_Nombre_Arossage =nombre_arrosage_detail_edittext.text.toString()
+           var  new_Volume_Eau_Journalier =volume_eau_journalier_detail_edittext.text.toString()
             change_object(type,new_humidite_plant_consign.toInt(),new_Nombre_Arossage.toInt(),new_Volume_Eau_Journalier.toInt(),choix_plant)
             finish()
         }
@@ -180,8 +181,8 @@ class DetailsActivity : AppCompatActivity() {
 
         change_object(type,humidite_plant_consigne,nombre_arrosage,volume_eau_journalier,choix_plant)
 
-        light_name_textview?.text="${`object_name`}"
-        valeur_luminosite_TextView?.text="${valeur_luminosite}"
+        light_name_detail_textview?.text="${`object_name`}"
+        valeur_luminosite_detail_TextView?.text="${valeur_luminosite}"
 
 
 
@@ -214,7 +215,8 @@ class DetailsActivity : AppCompatActivity() {
                 concentration_lgp,
                 concentration_fumee,
                 humidite_plant_consigne,
-                choix_plant)
+                choix_plant,
+        luminosite_consgine)
         runBlocking { objectDao.changeByName(changeobject) }
 
 

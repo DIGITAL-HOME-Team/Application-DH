@@ -52,7 +52,8 @@ data class Object(
         val concentration_lgp:Int,
         val concentration_fumee:Int,
         val humidite_plant_consigne:Int,
-val choix_plant:Boolean)
+val choix_plant:Boolean,
+        val luminosite_consgine:Int)
 
 
 

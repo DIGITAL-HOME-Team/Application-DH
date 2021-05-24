@@ -100,7 +100,7 @@
                 android:layout_width="224dp"
                 android:layout_height="wrap_content"
                 android:text="Humidité air"
-                app:layout_constraintTop_toBottomOf="@+id/nombre_arrosage_textview"
+                app:layout_constraintTop_toBottomOf="@+id/nombre_arrosage_detail_textview"
                 tools:layout_editor_absoluteX="105dp"
                 tools:text="humidité air" />
         </TableRow>
@@ -124,7 +124,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                app:layout_constraintTop_toBottomOf="@+id/nombre_arrosage_textview"
+                app:layout_constraintTop_toBottomOf="@+id/nombre_arrosage_detail_textview"
                 tools:layout_editor_absoluteX="105dp"
                 tools:text="valeur humidité air" />
         </TableRow>
@@ -237,7 +237,7 @@
             android:paddingBottom="8dp">
 
             <TextView
-                android:id="@+id/nombre_arrosage_textview"
+                android:id="@+id/nombre_arrosage_detail_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Nombre arrosage"
@@ -246,7 +246,7 @@
                 tools:text="nombre arrosage" />
 
             <TextView
-                android:id="@+id/volume_eau_journalier_textview"
+                android:id="@+id/volume_eau_journalier_detail_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Volume d'eau journalier"
@@ -262,12 +262,12 @@
             android:paddingBottom="8dp">
 
             <EditText
-                android:id="@+id/nombre_arrosage_edittext"
+                android:id="@+id/nombre_arrosage_detail_edittext"
                 android:layout_width="187dp"
                 android:layout_height="wrap_content" />
 
             <EditText
-                android:id="@+id/volume_eau_journalier_edittext"
+                android:id="@+id/volume_eau_journalier_detail_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </TableRow>
@@ -278,7 +278,7 @@
             android:paddingBottom="8dp">
 
             <TextView
-                android:id="@+id/titre_humidite_plant_consigne_textview"
+                android:id="@+id/titre_humidite_plant_consigne_detail_textview"
                 android:layout_width="206dp"
                 android:layout_height="wrap_content"
                 android:text="Humidité plante consigne"
@@ -287,7 +287,7 @@
                 tools:text="humidité plante consigne" />
 
             <EditText
-                android:id="@+id/humidite_plant_consigne_edittext"
+                android:id="@+id/humidite_plant_consigne_detail_edittext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""

@@ -8,4 +8,11 @@
     <string name="object_window">Window</string>
     <string name="object_heater">Heater</string>
     <string name="modifier_les_valeur_consignes">Modifier les valeur consignes</string>
+    <string name="light_name">Nom de la lampe</string>
+    <string name="ajouter_lampe">Ajouter lampe</string>
+    <string name="nom_du_chauffage">Nom du chauffage</string>
+    <string name="temp_rature_de_consigne">Température de consigne :</string>
+    <string name="ajouter_la_plante">Ajouter la plante</string>
+    <string name="nom_du_volet">Nom du volet :</string>
+    <string name="valeur_consgine_pour_la_luminosit">Valeur consgine pour la luminosité :</string>
 </resources>
