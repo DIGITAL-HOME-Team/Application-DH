@@ -15,6 +15,7 @@ import fr.epf.min.digitalhome.model.Object
 import fr.epf.min.digitalhome.model.Type
 import kotlinx.android.synthetic.main.activity_details_light.*
 import kotlinx.android.synthetic.main.activity_details_plant.*
+import kotlinx.android.synthetic.main.activity_details_window.*
 import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -46,7 +47,8 @@ class DetailsActivity : AppCompatActivity() {
     var humidite_plant_consigne by Delegates.notNull<Int>()
     var luminosite_consgine by Delegates.notNull<Int>()
     lateinit var changeobject:Object
-    var choix_plant=true
+
+    var automatique by Delegates.notNull<Boolean>()
     var ip="http://192.168.1.158:5000/"
     lateinit var service: ObjectService
 
@@ -77,7 +79,7 @@ class DetailsActivity : AppCompatActivity() {
             concentration_lgp= intent?.getIntExtra("concentration_lgp",0)
             concentration_fumee= intent?.getIntExtra("concentration_fumee",0)
             humidite_plant_consigne =intent?.getIntExtra("humidite_plant_consigne",0)
-            choix_plant=intent?.getBooleanExtra("choix_plant",true)
+            automatique=intent?.getBooleanExtra("automatique",false)
             luminosite_consgine=intent?.getIntExtra("luminosite_consgine",0)
         }
 
@@ -94,8 +96,8 @@ class DetailsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         when (type) {
-            "HEATER" -> {}
-            "WINDOW" -> {}
+            "HEATER" -> affiche_detail_heater()
+            "WINDOW" -> affiche_detail_window()
             "LIGHT" -> affiche_detail_light()
             "PLANT" -> affiche_detail_plant()
         }
@@ -147,7 +149,8 @@ class DetailsActivity : AppCompatActivity() {
         objectDao = database.getObjectDao()
     }
     fun affiche_detail_plant(){
-        change_object(type,humidite_plant_consigne,nombre_arrosage,volume_eau_journalier,choix_plant)
+        var choix_plant_detail=automatique
+        change_object(type,humidite_plant_consigne,nombre_arrosage,volume_eau_journalier,choix_plant_detail,null)
         plant_name_textview?.text= "${`object_name`}"
         ph_textview?.text="${ph}"
         humidite_air_textview?.text="${humidite_air}"
@@ -159,19 +162,24 @@ class DetailsActivity : AppCompatActivity() {
         humidite_plant_reel_textview?.text="${humidite_plant_reel}"
         titre_humidite_plant_consigne_detail_textview?.text="Humidité du sol consigne : ${humidite_plant_consigne}"
 
-        var choix_plant_radiobutton= Plant_choix_RadioGroup.checkedRadioButtonId as Int
-        var choix_plant=(
-                when (choix_plant_radiobutton) {
-                    plant_automatique_radiobutton.id -> {true }
-                    plant_consigne_radiobutton.id -> {false }
-                    else -> true
-                })
+
+
 
         Modify_consign_plant_button.setOnClickListener {
+
+            var choix_plant_radiobutton= Plant_choix_RadioGroup.checkedRadioButtonId as Int
+            if(choix_plant_radiobutton==plant_automatique_radiobutton.id){
+                choix_plant_detail=true
+                Log.d("epf","true")
+            }
+            if(choix_plant_radiobutton==plant_consigne_radiobutton.id){
+                choix_plant_detail=false
+                Log.d("epf","false")
+            }
           var  new_humidite_plant_consign = humidite_plant_consigne_detail_edittext.text.toString()
             var new_Nombre_Arossage =nombre_arrosage_detail_edittext.text.toString()
            var  new_Volume_Eau_Journalier =volume_eau_journalier_detail_edittext.text.toString()
-            change_object(type,new_humidite_plant_consign.toInt(),new_Nombre_Arossage.toInt(),new_Volume_Eau_Journalier.toInt(),choix_plant)
+            change_object(type,new_humidite_plant_consign.toInt(),new_Nombre_Arossage.toInt(),new_Volume_Eau_Journalier.toInt(),choix_plant_detail,null)
             finish()
         }
 
@@ -179,17 +187,44 @@ class DetailsActivity : AppCompatActivity() {
     }
     fun affiche_detail_light(){
 
-        change_object(type,humidite_plant_consigne,nombre_arrosage,volume_eau_journalier,choix_plant)
+        change_object(type,null,null,null,null,null)
 
         light_name_detail_textview?.text="${`object_name`}"
         valeur_luminosite_detail_TextView?.text="${valeur_luminosite}"
 
+    }
 
+    fun affiche_detail_heater(){
+
+    }
+    fun affiche_detail_window(){
+
+        var choix_window_detail=automatique
+        change_object(type,null,null,null,choix_window_detail,luminosite_consgine)
+        window_name_detail_textview?.text= "${`object_name`}"
+
+
+        Modify_consign_window_button.setOnClickListener {
+
+            var choix_window_radiobutton= window_choix_RadioGroup.checkedRadioButtonId as Int
+            if(choix_window_radiobutton==window_automatique_radiobutton.id){
+                choix_window_detail=true
+                Log.d("epf","true")
+            }
+            if(choix_window_radiobutton==window_manuelle_radiobutton.id){
+                choix_window_detail=false
+                Log.d("epf","false")
+            }
+            var  new_luminosite_consigne =luminosite_consigne_detail_edittext.text.toString()
+
+            change_object(type,null,null,null,choix_window_detail,new_luminosite_consigne.toInt())
+            finish()
+        }
 
 
     }
 
-    fun change_object(type:String?,humidite_plant_consigne:Int?,nombre_arrosage:Int?,volume_eau_journalier:Int?,choix_plant:Boolean){
+    fun change_object(type:String?, humidite_plant_consigne_new:Int?, nombre_arrosage_new:Int?, volume_eau_journalier_new:Int?, automatique_new:Boolean?,luminosite_consigne_new:Int?){
         var type_Object=(
         when (type) {
             "HEATER" -> Type.HEATER
@@ -209,18 +244,17 @@ class DetailsActivity : AppCompatActivity() {
                 valeur_luminosite,
                 ph,
                 humidite_air,
-                nombre_arrosage,
-                volume_eau_journalier,
+                nombre_arrosage_new,
+                volume_eau_journalier_new,
                 concentration_co2,
                 concentration_lgp,
                 concentration_fumee,
-                humidite_plant_consigne,
-                choix_plant,
-        luminosite_consgine)
+                humidite_plant_consigne_new,
+                automatique_new,
+            luminosite_consigne_new)
         runBlocking { objectDao.changeByName(changeobject) }
 
-
-        var valeur_post_object  = "{\"valeur_humidite_consigne\":${humidite_plant_consigne},\"valeur_nombre_arrosage\":${nombre_arrosage},\"valeur_volume_eau_journalier\":${volume_eau_journalier},\"choix_plant\":${choix_plant},\"id\":${object_id},\"type\":\"${type}\"}"
+        var valeur_post_object  = "{\"valeur_humidite_consigne\":${humidite_plant_consigne_new},\"valeur_nombre_arrosage\":${nombre_arrosage_new},\"valeur_volume_eau_journalier\":${volume_eau_journalier_new},\"valeur_automatique\":${automatique_new},\"id\":${object_id},\"type\":\"${type}\",\"valeur_luminosite_consigne\":${luminosite_consigne_new},\"valeur_plant_mode\":false,\"valeur_window_mode\":false}"
         post_object(valeur_post_object)
 
     }

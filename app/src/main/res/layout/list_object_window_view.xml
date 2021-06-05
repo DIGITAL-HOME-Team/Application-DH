@@ -28,14 +28,14 @@
             tools:text="Prenom Nom" />
 
         <ImageButton
-            android:id="@+id/imageButton3"
+            android:id="@+id/top_window_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@android:drawable/arrow_up_float" />
 
         <ImageButton
-            android:id="@+id/imageButton4"
+            android:id="@+id/bottom_window_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"

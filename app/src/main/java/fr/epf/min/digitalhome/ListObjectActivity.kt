@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.PrimaryKey
 import androidx.room.Room
 import fr.epf.min.digitalhome.data.*
 import fr.epf.min.digitalhome.model.Object
@@ -125,7 +124,7 @@ fun ConnexionBaseMongoDb(){
                         it.concentration_lgp,
                         it.concentration_fumee,
                         it.humidite_plant_consigne,
-                        it.choix_plant,
+                        it.automatique,
                         it.luminosite_consgine
                 )
 

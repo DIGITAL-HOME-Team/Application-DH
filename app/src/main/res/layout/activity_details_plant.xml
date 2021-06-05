@@ -40,12 +40,12 @@
                     android:id="@+id/plant_consigne_radiobutton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Automatique" />
+                    android:text="Consigne" />
                 <RadioButton
                     android:id="@+id/plant_automatique_radiobutton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Consigne" />
+                    android:text="Automatique" />
 
 
             </RadioGroup>

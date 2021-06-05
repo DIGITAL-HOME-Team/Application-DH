@@ -136,7 +136,7 @@ class AddObjectActivity : AppCompatActivity() {
             runBlocking {
                 idobject=objectDao.addObject(`object`)
                 ConnexionBaseMongoDb()
-                val objectToMongoDB="{\"json\":{\"name\":\"${name}\",\"type\":\"${this@AddObjectActivity.type}\",\"allumer_light\": false,\"actif_volet\": 0,\"temp_consigne\": 0,\"temp_reel\": 0,\"humidite_plant_reel\": 0,\"valeur_luminosite\": 0, \"id\": ${idobject},\"humidite_sol\":0,\"ph\":0,\"humidite_air\":0,\"nombre_arrosage\":${nombre_arrosage.toInt()},\"volume_eau_journalier\":${volume_eau_jouarnalier.toInt()},\"concentration_co2\":0,\"concentration_lgp\":0,\"concentration_fumee\":0,\"humidite_plant_consigne\":${humidite_plant_consigne.toInt()},\"luminosite_consgine\":0}}"
+                val objectToMongoDB="{\"json\":{\"name\":\"${name}\",\"type\":\"${this@AddObjectActivity.type}\",\"allumer_light\": false,\"actif_volet\": 0,\"temp_consigne\": 0,\"temp_reel\": 0,\"humidite_plant_reel\": 0,\"valeur_luminosite\": 0, \"id\": ${idobject},\"humidite_sol\":0,\"ph\":0,\"humidite_air\":0,\"nombre_arrosage\":${nombre_arrosage.toInt()},\"volume_eau_journalier\":${volume_eau_jouarnalier.toInt()},\"concentration_co2\":0,\"concentration_lgp\":0,\"concentration_fumee\":0,\"humidite_plant_consigne\":${humidite_plant_consigne.toInt()},\"luminosite_consigne\":0,\"automatique\":true}}"
 
                 val requestBody = objectToMongoDB.toRequestBody("application/json".toMediaTypeOrNull())
                 service.createObject(requestBody)
@@ -150,7 +150,7 @@ class AddObjectActivity : AppCompatActivity() {
     }
     fun add_window(){
         window_add_button.setOnClickListener {
-        var name =light_name_edittext.text.toString()
+        var name =window_name_edittext.text.toString()
             var valeur_luminosite_consgine=window_luminosite_consigne_edittext.text.toString()
 
         val `object` = Object(null,
@@ -171,12 +171,13 @@ class AddObjectActivity : AppCompatActivity() {
                 null,
                 null,
                 null,
-        valeur_luminosite_consgine.toInt())
+        valeur_luminosite_consgine.toInt()
+        )
 
         runBlocking {
             idobject=objectDao.addObject(`object`)
             ConnexionBaseMongoDb()
-            val objectToMongoDB="{\"json\":{\"name\":\"${name}\",\"type\":\"${this@AddObjectActivity.type}\",\"allumer_light\": false,\"actif_volet\": 0,\"temp_consigne\": 0,\"temp_reel\": 0,\"humidite_plant_reel\": 0,\"valeur_luminosite\": 0, \"id\": ${idobject},\"humidite_sol\":0,\"ph\":0,\"humidite_air\":0,\"nombre_arrosage\":0,\"volume_eau_journalier\":0,\"concentration_co2\":0,\"concentration_lgp\":0,\"concentration_fumee\":0,\"humidite_plant_consigne\":0,\"luminosite_consgine\":${valeur_luminosite_consgine.toInt()}}}"
+            val objectToMongoDB="{\"json\":{\"name\":\"${name}\",\"type\":\"${this@AddObjectActivity.type}\",\"allumer_light\": false,\"actif_volet\": 0,\"temp_consigne\": 0,\"temp_reel\": 0,\"humidite_plant_reel\": 0,\"valeur_luminosite\": 0, \"id\": ${idobject},\"humidite_sol\":0,\"ph\":0,\"humidite_air\":0,\"nombre_arrosage\":0,\"volume_eau_journalier\":0,\"concentration_co2\":0,\"concentration_lgp\":0,\"concentration_fumee\":0,\"humidite_plant_consigne\":0,\"luminosite_consigne\":${valeur_luminosite_consgine.toInt()},\"automatique\":false}}"
 
             val requestBody = objectToMongoDB.toRequestBody("application/json".toMediaTypeOrNull())
             service.createObject(requestBody)
@@ -215,7 +216,7 @@ class AddObjectActivity : AppCompatActivity() {
             runBlocking {
                 idobject=objectDao.addObject(`object`)
                 ConnexionBaseMongoDb()
-                val objectToMongoDB="{\"json\":{\"name\":\"${name}\",\"type\":\"${this@AddObjectActivity.type}\",\"allumer_light\": false,\"actif_volet\": 0,\"temp_consigne\": ${temp_consigne.toInt()},\"temp_reel\": 0,\"humidite_plant_reel\": 0,\"valeur_luminosite\": 0, \"id\": ${idobject},\"humidite_sol\":0,\"ph\":0,\"humidite_air\":0,\"nombre_arrosage\":0,\"volume_eau_journalier\":0,\"concentration_co2\":0,\"concentration_lgp\":0,\"concentration_fumee\":0,\"humidite_plant_consigne\":0,\"luminosite_consgine\":0}}"
+                val objectToMongoDB="{\"json\":{\"name\":\"${name}\",\"type\":\"${this@AddObjectActivity.type}\",\"allumer_light\": false,\"actif_volet\": 0,\"temp_consigne\": ${temp_consigne.toInt()},\"temp_reel\": 0,\"humidite_plant_reel\": 0,\"valeur_luminosite\": 0, \"id\": ${idobject},\"humidite_sol\":0,\"ph\":0,\"humidite_air\":0,\"nombre_arrosage\":0,\"volume_eau_journalier\":0,\"concentration_co2\":0,\"concentration_lgp\":0,\"concentration_fumee\":0,\"humidite_plant_consigne\":0,\"luminosite_consigne\":0,\"automatique\":null}}"
 
                 val requestBody = objectToMongoDB.toRequestBody("application/json".toMediaTypeOrNull())
                 service.createObject(requestBody)
@@ -254,7 +255,7 @@ class AddObjectActivity : AppCompatActivity() {
         runBlocking {
             idobject=objectDao.addObject(`object`)
             ConnexionBaseMongoDb()
-            val objectToMongoDB="{\"json\":{\"name\":\"${name}\",\"type\":\"${this@AddObjectActivity.type}\",\"allumer_light\": false,\"actif_volet\": 0,\"temp_consigne\": 0,\"temp_reel\": 0,\"humidite_plant_reel\": 0,\"valeur_luminosite\": 0, \"id\": ${idobject},\"humidite_sol\":0,\"ph\":0,\"humidite_air\":0,\"nombre_arrosage\":0,\"volume_eau_journalier\":0,\"concentration_co2\":0,\"concentration_lgp\":0,\"concentration_fumee\":0,\"humidite_plant_consigne\":0,\"luminosite_consgine\":0}}"
+            val objectToMongoDB="{\"json\":{\"name\":\"${name}\",\"type\":\"${this@AddObjectActivity.type}\",\"allumer_light\": false,\"actif_volet\": 0,\"temp_consigne\": 0,\"temp_reel\": 0,\"humidite_plant_reel\": 0,\"valeur_luminosite\": 0, \"id\": ${idobject},\"humidite_sol\":0,\"ph\":0,\"humidite_air\":0,\"nombre_arrosage\":0,\"volume_eau_journalier\":0,\"concentration_co2\":0,\"concentration_lgp\":0,\"concentration_fumee\":0,\"humidite_plant_consigne\":0,\"luminosite_consigne\":0,\"automatique\":null}}"
 
             val requestBody = objectToMongoDB.toRequestBody("application/json".toMediaTypeOrNull())
             service.createObject(requestBody)

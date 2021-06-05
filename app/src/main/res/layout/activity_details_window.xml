@@ -1,6 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    tools:context=".AddObjectActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/window_name_detail_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""/>
+    <TextView
+        android:id="@+id/valeur_luminosite_detail_window_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""/>
+
+    <RadioGroup
+        android:id="@+id/window_choix_RadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <RadioButton
+            android:id="@+id/window_manuelle_radiobutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manuelle" />
+        <RadioButton
+            android:id="@+id/window_automatique_radiobutton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Automatique" />
+
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/luminosite_consigne_detail_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Consigne luminosité"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="105dp"
+        tools:text="consgine lumiére" />
+
+
+<EditText
+    android:id="@+id/luminosite_consigne_detail_edittext"
+    android:layout_width="187dp"
+    android:layout_height="wrap_content" />
+
+
+    <Button
+        android:id="@+id/Modify_consign_window_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/modifier_les_valeur_consignes"
+        android:textAlignment="center" />
+
+</LinearLayout>

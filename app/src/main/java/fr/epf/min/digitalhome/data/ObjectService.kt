@@ -35,25 +35,25 @@ data class GetObjectsByTypeResult(val results: List<fr.epf.min.digitalhome.model
 
 
 data class Object(
-        val name: String,
-        val type : String,
-        val id:Int,
-        val temp_reel:Int,
-        val temp_consigne:Int,
-        val allumer_light:Boolean,
-        val humidite_plant_reel: Int?,
-        val valeur_luminosite:Int,
-        val actif_volet:Int,
-        val ph : Int,
-        val humidite_air : Int,
-        val nombre_arrosage :Int,
-        val volume_eau_journalier : Int,
-        val concentration_co2:Int,
-        val concentration_lgp:Int,
-        val concentration_fumee:Int,
-        val humidite_plant_consigne:Int,
-val choix_plant:Boolean,
-        val luminosite_consgine:Int)
+    val name: String,
+    val type : String,
+    val id:Int,
+    val temp_reel:Int,
+    val temp_consigne:Int,
+    val allumer_light:Boolean,
+    val humidite_plant_reel: Int?,
+    val valeur_luminosite:Int,
+    val actif_volet:Int,
+    val ph : Int,
+    val humidite_air : Int,
+    val nombre_arrosage :Int,
+    val volume_eau_journalier : Int,
+    val concentration_co2:Int,
+    val concentration_lgp:Int,
+    val concentration_fumee:Int,
+    val humidite_plant_consigne:Int,
+    val automatique:Boolean,
+    val luminosite_consgine:Int)
 
 
 
