@@ -27,7 +27,7 @@ class AddObjectActivity : AppCompatActivity() {
 
     lateinit var database: ObjectDataBase
     lateinit var objectDao: ObjectDao
-    var ip="http://192.168.137.222:5000/"
+    var ip="http://192.168.137.133:5000/"
     lateinit var service: ObjectService
     var type=""
     lateinit var types:Type

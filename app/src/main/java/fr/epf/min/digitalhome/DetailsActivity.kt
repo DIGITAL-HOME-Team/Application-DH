@@ -49,7 +49,7 @@ class DetailsActivity : AppCompatActivity() {
     lateinit var changeobject:Object
 
     var automatique by Delegates.notNull<Boolean>()
-    var ip="http://192.168.137.222:5000/"
+    var ip="http://192.168.137.133:5000/"
     lateinit var service: ObjectService
 
 
