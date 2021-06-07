@@ -35,7 +35,7 @@ class ListObjectAdapter(val objects: List<Object>,val context: Context) : Recycl
     var pressed_top by Delegates.notNull<Int>()
     var pressed_top_plant by Delegates.notNull<Int>()
     var pressed_bottom by Delegates.notNull<Int>()
-    var ip = "http://192.168.137.133:5000/"
+    var ip = "http://192.168.43.108:5000/"
 
     class ObjectViewHolder(val objectView: View) : RecyclerView.ViewHolder(objectView)
 

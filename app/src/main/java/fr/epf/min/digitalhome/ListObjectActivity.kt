@@ -26,7 +26,7 @@ class ListObjectActivity  : AppCompatActivity() {
     lateinit var type: String
     lateinit var service: ObjectService
     lateinit var result: GetObjectsByTypeResult
-    var ip="http://192.168.137.133:5000/"
+    var ip="http://192.168.43.108:5000/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
